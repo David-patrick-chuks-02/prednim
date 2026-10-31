@@ -42,15 +42,24 @@ export function SiteFooter() {
             © {new Date().getFullYear()} {SITE_NAME}. All content 18+
           </p>
           <div className="flex gap-5">
-            {["Privacy", "Terms", "Cookies"].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-[12px] text-muted transition hover:text-accent"
-              >
-                {item}
-              </a>
-            ))}
+            <a
+              href="/privacy"
+              className="text-[12px] text-muted transition hover:text-accent"
+            >
+              Privacy
+            </a>
+            <a
+              href="/terms"
+              className="text-[12px] text-muted transition hover:text-accent"
+            >
+              Terms
+            </a>
+            <a
+              href="/cookies"
+              className="text-[12px] text-muted transition hover:text-accent"
+            >
+              Cookies
+            </a>
           </div>
         </div>
       </div>
