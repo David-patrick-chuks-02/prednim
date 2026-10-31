@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/auth-context";
 import { SiteHeader } from "@/components/site-header";
@@ -13,12 +13,19 @@ const PLANS = {
   annual: { name: "Annual", price: 1000, period: "per year" },
 };
 
+interface BachPaymentIntent {
+  id: string;
+  status: string;
+  client_secret?: string;
+}
+
 export default function CheckoutPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { user, loading } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState<keyof typeof PLANS>("sixmonth");
   const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [paymentIntent, setPaymentIntent] = useState<BachPaymentIntent | null>(null);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -42,11 +49,35 @@ export default function CheckoutPage() {
 
   const handleCheckout = async () => {
     setProcessing(true);
-    // In a real app, this would integrate with Stripe/Paddle
-    // For now, just redirect to dashboard
-    setTimeout(() => {
-      router.push("/dashboard");
-    }, 1500);
+    setError(null);
+
+    try {
+      // Create payment intent with Bach
+      const response = await fetch("/api/payments/create-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          planType: selectedPlan,
+          email: user?.email,
+          name: user?.user_metadata?.full_name || "User",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create payment intent");
+      }
+
+      const intent: BachPaymentIntent = await response.json();
+      setPaymentIntent(intent);
+
+      // Redirect to Bach payment page
+      if (intent.id) {
+        window.location.href = `https://bachs.io/pay/${intent.id}`;
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Payment failed");
+      setProcessing(false);
+    }
   };
 
   return (
@@ -91,42 +122,18 @@ export default function CheckoutPage() {
               {/* Payment Form */}
               <div className="mt-8">
                 <h2 className="font-display text-lg font-bold text-ink mb-4">Payment details</h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-ink mb-2">Cardholder name</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-lg border border-line bg-input px-4 py-2.5 text-ink"
-                      placeholder="John Doe"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-ink mb-2">Card number</label>
-                    <input
-                      type="text"
-                      className="w-full rounded-lg border border-line bg-input px-4 py-2.5 text-ink"
-                      placeholder="4242 4242 4242 4242"
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-semibold text-ink mb-2">Expiry</label>
-                      <input
-                        type="text"
-                        className="w-full rounded-lg border border-line bg-input px-4 py-2.5 text-ink"
-                        placeholder="MM/YY"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-ink mb-2">CVC</label>
-                      <input
-                        type="text"
-                        className="w-full rounded-lg border border-line bg-input px-4 py-2.5 text-ink"
-                        placeholder="123"
-                      />
-                    </div>
-                  </div>
+                {error && (
+                <div className="rounded-lg bg-danger/10 border border-danger/30 p-4 text-sm text-danger">
+                  {error}
                 </div>
+              )}
+
+              <div className="bg-accent/10 border border-accent/30 rounded-lg p-4">
+                <p className="text-sm text-ink font-semibold mb-2">💳 Payment Method</p>
+                <p className="text-xs text-muted">
+                  You'll be redirected to Bach to complete your payment securely. We accept all major credit cards.
+                </p>
+              </div>
               </div>
             </div>
 
