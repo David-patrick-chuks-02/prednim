@@ -8,7 +8,6 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://prednim.com
 export const NAV_LINKS = [
   { label: "Pricing", href: "/pricing" },
   { label: "How it works", href: "/how-it-works" },
-  { label: "Browse", href: "/browse" },
   { label: "FAQ", href: "/faq" },
   { label: "18+ Verified", href: "/verify-age" },
 ] as const;
@@ -19,7 +18,6 @@ export const FOOTER_COLUMNS = [
     links: [
       { label: "Pricing", href: "/pricing" },
       { label: "How it works", href: "/how-it-works" },
-      { label: "Browse books", href: "/browse" },
       { label: "Contact", href: "/contact" },
     ],
   },

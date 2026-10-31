@@ -1,15 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/auth-context";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { BOOKS } from "@/lib/books";
+import Image from "next/image";
 
 export default function DashboardPage() {
   const { user, loading, signOut } = useAuth();
   const router = useRouter();
+  const [selectedBook, setSelectedBook] = useState(null);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -68,39 +71,42 @@ export default function DashboardPage() {
           </div>
 
           {/* Featured Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          <div className="rounded-lg border border-accent/30 bg-accent/5 p-8 mb-12">
+            <h3 className="font-display text-lg font-bold text-ink">Your plan</h3>
+            <p className="mt-2 text-sm text-muted">Premium subscription • Cancel anytime</p>
             <Link
-              href="/browse"
-              className="group rounded-lg border border-line/50 bg-card/50 p-8 transition hover:border-accent/30 hover:bg-card/80"
+              href="/account"
+              className="mt-4 inline-block text-accent font-semibold hover:text-accent-dim"
             >
-              <h3 className="font-display text-lg font-bold text-ink">Browse library</h3>
-              <p className="mt-2 text-sm text-muted">Explore 5,000+ exclusive books from PredNim</p>
-              <div className="mt-4 text-accent font-semibold">Start reading →</div>
+              Manage plan →
             </Link>
-
-            <div className="rounded-lg border border-accent/30 bg-accent/5 p-8">
-              <h3 className="font-display text-lg font-bold text-ink">Your plan</h3>
-              <p className="mt-2 text-sm text-muted">Premium subscription • Cancel anytime</p>
-              <Link
-                href="/account"
-                className="mt-4 inline-block text-accent font-semibold hover:text-accent-dim"
-              >
-                Manage plan →
-              </Link>
-            </div>
           </div>
 
-          {/* Reading Progress */}
-          <div className="rounded-lg border border-line/50 bg-card/50 p-8">
-            <h2 className="font-display text-xl font-bold text-ink mb-6">Continue reading</h2>
-            <div className="text-center text-muted py-12">
-              <p className="text-sm">No books in progress</p>
-              <Link
-                href="/browse"
-                className="mt-4 inline-block text-accent font-semibold hover:text-accent-dim"
-              >
-                Browse books →
-              </Link>
+          {/* Library Section */}
+          <div className="mb-12">
+            <h2 className="font-display text-2xl font-bold text-ink mb-8">Your Library</h2>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              {BOOKS.map((book) => (
+                <div
+                  key={book.id}
+                  className="group cursor-pointer rounded-lg border border-line/50 bg-card/50 overflow-hidden transition hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5"
+                >
+                  <div className="relative h-48 overflow-hidden rounded-t-lg bg-gradient-to-br from-surface to-elevated">
+                    <img
+                      src={book.coverImage}
+                      alt={book.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                  </div>
+                  <div className="p-3">
+                    <h3 className="font-display font-bold text-ink text-xs line-clamp-1">
+                      {book.title}
+                    </h3>
+                    <p className="text-xs text-muted">{book.author}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
