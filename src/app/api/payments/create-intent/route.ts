@@ -1,4 +1,4 @@
-import { createOrGetCustomer, createPaymentIntent } from "@/lib/bach";
+import { createPaymentIntent } from "@/lib/bach";
 
 export async function POST(request: Request) {
   try {
@@ -19,16 +19,9 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create or get Bach customer
-    const customer = await createOrGetCustomer(
-      email,
-      name,
-      email // Using email as userId for now
-    );
-
-    // Create payment intent
+    // Get payment link (no customer creation needed)
     const paymentIntent = await createPaymentIntent(
-      customer.id,
+      "", // customerId not needed anymore
       planType as "monthly" | "sixmonth" | "annual",
       email,
       name
