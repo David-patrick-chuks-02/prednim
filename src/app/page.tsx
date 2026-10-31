@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { BooksGrid } from "@/components/books-grid";
 import { Features } from "@/components/features";
 import { FinalCta } from "@/components/final-cta";
 import { Hero } from "@/components/hero";
@@ -34,6 +35,7 @@ export default function HomePage() {
       <SiteHeader />
       <main>
         <Hero />
+        <BooksGrid />
         <Stats />
         <Features />
         <Testimonials />
