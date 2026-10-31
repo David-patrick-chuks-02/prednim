@@ -57,7 +57,7 @@ const PAYMENT_LINKS = {
 /**
  * Get payment link for a plan
  * Payment links are pre-created in Bach dashboard
- * Redirect user to: https://checkout.bachs.io/pay/{payment_link_id}
+ * Redirect user to: https://checkout.bachs.io/pay/{payment_link_id}?success_url={return_url}
  */
 export async function createPaymentIntent(
   customerId: string,
@@ -71,9 +71,13 @@ export async function createPaymentIntent(
     throw new Error(`No payment link configured for plan: ${planType}`);
   }
 
+  // Add success return URL for after payment
+  const successUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://prednim.xyz'}/success`;
+  const paymentUrl = `https://checkout.bachs.io/pay/${link.id}?success_url=${encodeURIComponent(successUrl)}`;
+
   return {
     id: link.id,
-    url: `https://checkout.bachs.io/pay/${link.id}`,
+    url: paymentUrl,
     plan_type: planType,
     amount: link.amount,
     currency: 'USD',
