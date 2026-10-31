@@ -1,0 +1,13 @@
+<svg viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad10" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d1b2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0f1b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="450" fill="url(#grad10)"/>
+  <circle cx="150" cy="150" r="45" fill="#7b68ee" opacity="0.4"/>
+  <text x="150" y="260" font-size="40" font-weight="bold" fill="#9370db" text-anchor="middle" font-family="Arial">Sandman</text>
+  <text x="150" y="300" font-size="18" fill="#7b68ee" text-anchor="middle" font-family="Arial">Vol. 1</text>
+  <text x="150" y="340" font-size="14" fill="#999" text-anchor="middle" font-family="Arial">Neil Gaiman</text>
+</svg>

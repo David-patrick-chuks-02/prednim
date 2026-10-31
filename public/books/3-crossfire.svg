@@ -1,0 +1,12 @@
+<svg viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e74c3c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b0000;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="450" fill="url(#grad3)"/>
+  <text x="150" y="200" font-size="32" font-weight="bold" fill="#fff" text-anchor="middle" font-family="Arial">Crossfire</text>
+  <text x="150" y="250" font-size="28" font-weight="bold" fill="#ffd700" text-anchor="middle" font-family="Arial">Series</text>
+  <text x="150" y="320" font-size="18" fill="#fff" text-anchor="middle" font-family="Arial" opacity="0.9">Sylvia Day</text>
+</svg>

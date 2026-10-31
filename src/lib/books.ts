@@ -3,6 +3,7 @@ export interface Book {
   title: string;
   author: string;
   cover: string;
+  coverImage: string;
   price: number;
   originalPrice?: number;
   rating: number;
@@ -18,6 +19,7 @@ export const BOOKS: Book[] = [
     title: "Radiance",
     author: "Grace Draven",
     cover: "bg-gradient-to-br from-accent/15 to-accent/5",
+    coverImage: "/books/1-radiance.svg",
     price: 14.99,
     originalPrice: 18.99,
     rating: 4.8,
@@ -31,6 +33,7 @@ export const BOOKS: Book[] = [
     title: "Outlander",
     author: "Diana Gabaldon",
     cover: "bg-gradient-to-br from-accent-dim/20 to-accent/10",
+    coverImage: "/books/2-outlander.svg",
     price: 16.99,
     rating: 4.7,
     reviews: 2156,
@@ -43,6 +46,7 @@ export const BOOKS: Book[] = [
     title: "Crossfire Series",
     author: "Sylvia Day",
     cover: "bg-gradient-to-br from-accent/12 to-elevated",
+    coverImage: "/books/3-crossfire.svg",
     price: 15.50,
     rating: 4.6,
     reviews: 1843,
@@ -55,6 +59,7 @@ export const BOOKS: Book[] = [
     title: "Saga: Vol. 1",
     author: "Brian K. Vaughan",
     cover: "bg-gradient-to-br from-muted/20 to-muted/5",
+    coverImage: "/books/4-saga.svg",
     price: 13.99,
     originalPrice: 17.99,
     rating: 4.5,
@@ -67,6 +72,7 @@ export const BOOKS: Book[] = [
     title: "Beautiful Bastard",
     author: "Christina Lauren",
     cover: "bg-gradient-to-br from-accent-dim/15 to-accent/8",
+    coverImage: "/books/5-beautiful-bastard.svg",
     price: 17.99,
     rating: 4.9,
     reviews: 4156,
@@ -79,6 +85,7 @@ export const BOOKS: Book[] = [
     title: "Maus: A Survivor's Tale",
     author: "Art Spiegelman",
     cover: "bg-gradient-to-br from-accent/18 to-accent-dim/10",
+    coverImage: "/books/6-maus.svg",
     price: 16.50,
     rating: 4.8,
     reviews: 2987,
@@ -90,6 +97,7 @@ export const BOOKS: Book[] = [
     title: "Fifty Shades of Grey",
     author: "E.L. James",
     cover: "bg-gradient-to-br from-elevated to-card",
+    coverImage: "/books/7-fifty-shades.svg",
     price: 18.99,
     rating: 4.7,
     reviews: 3456,
@@ -101,6 +109,7 @@ export const BOOKS: Book[] = [
     title: "Watchmen",
     author: "Alan Moore & Dave Gibbons",
     cover: "bg-gradient-to-br from-accent/20 to-elevated",
+    coverImage: "/books/8-watchmen.svg",
     price: 14.99,
     rating: 4.6,
     reviews: 2734,
@@ -112,6 +121,7 @@ export const BOOKS: Book[] = [
     title: "The Hating Game",
     author: "Sally Thorne",
     cover: "bg-gradient-to-br from-muted/15 to-surface",
+    coverImage: "/books/9-hating-game.svg",
     price: 15.99,
     originalPrice: 19.99,
     rating: 4.4,
@@ -124,6 +134,7 @@ export const BOOKS: Book[] = [
     title: "Sandman Vol. 1",
     author: "Neil Gaiman",
     cover: "bg-gradient-to-br from-accent-dim/12 to-muted/8",
+    coverImage: "/books/10-sandman.svg",
     price: 17.50,
     rating: 4.8,
     reviews: 2891,
@@ -135,6 +146,7 @@ export const BOOKS: Book[] = [
     title: "Berserk Vol. 1",
     author: "Kentaro Miura",
     cover: "bg-gradient-to-br from-accent/16 to-card",
+    coverImage: "/books/11-berserk.svg",
     price: 16.99,
     rating: 4.7,
     reviews: 3124,
@@ -146,6 +158,7 @@ export const BOOKS: Book[] = [
     title: "Hookup Culture",
     author: "Kristen Roupenian",
     cover: "bg-gradient-to-br from-accent-dim/18 to-accent/6",
+    coverImage: "/books/12-hookup-culture.svg",
     price: 16.50,
     rating: 4.9,
     reviews: 4521,

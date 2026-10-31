@@ -8,12 +8,13 @@ function BookCard({ book }: { book: typeof BOOKS[0] }) {
   return (
     <div className="group flex flex-col rounded-lg border border-line/40 bg-card/50 backdrop-blur-sm transition-all hover:border-accent/30 hover:bg-card/80 hover:shadow-lg hover:shadow-accent/5">
       {/* Book Cover */}
-      <div className="relative h-40 overflow-hidden rounded-t-lg bg-gradient-to-br from-accent/10 to-accent-dim/10">
-        <div className="absolute inset-0 border-b border-line/20 flex items-center justify-center">
-          <div className="text-center px-3">
-            <div className="font-display text-sm font-bold text-muted line-clamp-3">{book.title}</div>
-          </div>
-        </div>
+      <div className="relative h-48 overflow-hidden rounded-t-lg bg-gradient-to-br from-surface to-elevated">
+        <img
+          src={book.coverImage}
+          alt={book.title}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         {discount > 0 && (
           <div className="absolute top-2 right-2 bg-accent/20 text-accent text-xs font-bold px-2 py-1 rounded border border-accent/40">
             -{discount}%
