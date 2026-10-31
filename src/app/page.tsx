@@ -7,7 +7,6 @@ import { Pricing } from "@/components/pricing";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Stats } from "@/components/stats";
-import { Testimonials } from "@/components/testimonials";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -38,7 +37,6 @@ export default function HomePage() {
         <Pricing />
         <Features />
         <Stats />
-        <Testimonials />
         <FinalCta />
       </main>
       <SiteFooter />
