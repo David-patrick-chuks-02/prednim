@@ -80,10 +80,10 @@ export function Pricing() {
         {/* Section Header */}
         <div className="mb-12 text-center">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-ink">
-            Simple, transparent pricing
+            Unlimited access, discreet billing
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-base text-muted">
-            Choose the plan that works for you. Cancel anytime, no questions asked.
+            Premium adult content. Choose your plan. Cancel anytime. 18+ only.
           </p>
         </div>
 

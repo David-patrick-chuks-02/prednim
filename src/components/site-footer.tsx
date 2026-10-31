@@ -9,8 +9,8 @@ export function SiteFooter() {
           <div>
             <Logo />
             <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-muted">
-              Premium book subscription service. Unlimited access to 5,000+ hand-picked titles.
-              Read what you love, whenever you want.
+              Premium adult book & comic subscription. Unlimited access to 5,000+ titles.
+              Discreet, secure, 18+ only.
             </p>
           </div>
 
@@ -39,7 +39,7 @@ export function SiteFooter() {
 
         <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-line pt-6 sm:flex-row sm:items-center">
           <p className="text-[12px] text-muted">
-            © {new Date().getFullYear()} {SITE_NAME}. Built on the BugDev theme.
+            © {new Date().getFullYear()} {SITE_NAME}. All content 18+
           </p>
           <div className="flex gap-5">
             {["Privacy", "Terms", "Cookies"].map((item) => (

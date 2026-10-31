@@ -13,19 +13,19 @@ export function Hero() {
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-accent/30 bg-accent-soft px-3 py-1">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             <span className="text-[11px] font-semibold tracking-[0.14em] text-accent uppercase">
-              Books you’ll actually finish
+              Content 18+ Only
             </span>
           </span>
 
           <h1 className="font-display mt-6 text-4xl sm:text-5xl leading-tight font-bold tracking-[-0.02em] text-ink">
-            Unlimited books,{" "}
+            Unlimited adult books{" "}
             <span className="text-accent">
-              all year round
+              & comics
             </span>
           </h1>
 
           <p className="mt-6 max-w-xl text-base leading-relaxed text-muted">
-            Get unlimited access to 5,000+ hand-picked books. Read whenever you want. Cancel anytime. From $100/month.
+            Explore 5,000+ erotic novels, romance, and mature comics. Discreet access, premium selection. Read what you desire. From $100/month.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
