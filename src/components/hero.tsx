@@ -18,40 +18,40 @@ export function Hero() {
           </span>
 
           <h1 className="font-display mt-6 text-4xl sm:text-5xl leading-tight font-bold tracking-[-0.02em] text-ink">
-            Discover books{" "}
+            Unlimited books,{" "}
             <span className="text-accent">
-              hand-picked for you
+              all year round
             </span>
           </h1>
 
           <p className="mt-6 max-w-xl text-base leading-relaxed text-muted">
-            PredNim is an independent bookshop run by readers. Every title is carefully selected, and every order is shipped same-day.
+            Get unlimited access to 5,000+ hand-picked books. Read whenever you want. Cancel anytime. From $100/month.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
-              href="#shop"
+              href="#pricing"
               className="rounded-full bg-accent px-6 py-3 text-sm font-bold text-on-accent shadow-[0_10px_30px_-10px_rgba(61,220,106,0.4)] transition hover:bg-accent-dim"
             >
-              Browse books
+              View plans
             </a>
             <a
-              href="#features"
+              href="/how-it-works"
               className="rounded-full border border-line/60 px-6 py-3 text-sm font-semibold text-ink transition hover:border-accent/50 hover:bg-accent/5"
             >
-              Our story
+              How it works
             </a>
           </div>
 
           <div className="mt-8 flex items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="text-2xl font-bold text-accent">5,000+</span>
-              <span className="text-xs text-muted">titles in stock</span>
+              <span className="text-xs text-muted">books available</span>
             </div>
             <div className="h-6 w-px bg-line/20" />
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-accent">98.6%</span>
-              <span className="text-xs text-muted">dispatch rate</span>
+              <span className="text-2xl font-bold text-accent">7 days</span>
+              <span className="text-xs text-muted">free trial</span>
             </div>
           </div>
         </div>

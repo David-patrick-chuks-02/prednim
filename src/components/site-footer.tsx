@@ -9,8 +9,8 @@ export function SiteFooter() {
           <div>
             <Logo />
             <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-muted">
-              An independent bookshop run by readers. Hand-picked titles, recommendations that
-              explain themselves, and orders posted the same day.
+              Premium book subscription service. Unlimited access to 5,000+ hand-picked titles.
+              Read what you love, whenever you want.
             </p>
           </div>
 
