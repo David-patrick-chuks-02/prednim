@@ -16,48 +16,8 @@ const stroke = {
 
 const FEATURES: Feature[] = [
   {
-    title: "Picked by actual readers",
-    body: "Every title on our shelves was chosen by a bookseller who read it, with a short note on why. No paid placements, no publishers bidding for the front table.",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" {...stroke}>
-        <path d="M12 6.5C10.4 5.2 8.5 4.6 6 4.6H4v13h2c2.5 0 4.4.6 6 1.9 1.6-1.3 3.5-1.9 6-1.9h2v-13h-2c-2.5 0-4.4.6-6 1.9Z" />
-        <path d="M12 6.5v13" />
-      </svg>
-    ),
-  },
-  {
-    title: "Recommendations that explain themselves",
-    body: "Tell us the last book you loved and we’ll tell you why the next one fits — the pacing, the voice, the ending. Never a black box guessing at your clicks.",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" {...stroke}>
-        <path d="M12 3v3M12 18v3M4.2 7.5l2.6 1.5M17.2 15l2.6 1.5M4.2 16.5l2.6-1.5M17.2 9l2.6-1.5" />
-        <circle cx="12" cy="12" r="3.4" />
-      </svg>
-    ),
-  },
-  {
-    title: "Packed and shipped same day",
-    body: "Order before 4pm and it leaves the shop today, in plastic-free packaging that survives the post. Tracking lands in your inbox the moment it’s scanned.",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" {...stroke}>
-        <path d="M3 8.2 12 4l9 4.2v7.6L12 20l-9-4.2V8.2Z" />
-        <path d="m3 8.2 9 4.2 9-4.2M12 12.4V20" />
-      </svg>
-    ),
-  },
-  {
-    title: "Find your next read in minutes",
-    body: "Browse by mood, length, or theme instead of scrolling endless bestseller lists. If you have twenty minutes and want something short, we have a shelf for that.",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" {...stroke}>
-        <circle cx="11" cy="11" r="6.4" />
-        <path d="m15.8 15.8 4.2 4.2" />
-      </svg>
-    ),
-  },
-  {
-    title: "A shelf built around your taste",
-    body: "Members get first look at new arrivals, early access to signed editions, and a monthly pick reserved at member price. Stay for a season or a decade — no lock-in.",
+    title: "5,000+ premium books",
+    body: "Unlimited access to erotic novels, romance, and mature comics. Browse our carefully curated collection of adult content.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-5 w-5" {...stroke}>
         <path d="M4 20V6.5A1.5 1.5 0 0 1 5.5 5H9a3 3 0 0 1 3 3v12" />
@@ -67,12 +27,52 @@ const FEATURES: Feature[] = [
     ),
   },
   {
-    title: "Returns are painless",
-    body: "Thirty days, no questions, and we cover the postage if the book arrived damaged. We would rather you keep a shelf you love than one you feel stuck with.",
+    title: "Read anywhere",
+    body: "Access your library on any device—phone, tablet, or desktop. Sync your reading progress across all devices instantly.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-5 w-5" {...stroke}>
-        <path d="M12 3 5 6v5.6c0 4 2.9 7.7 7 9.4 4.1-1.7 7-5.4 7-9.4V6l-7-3Z" />
-        <path d="m9.2 12 2 2 3.6-3.8" />
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+        <path d="M14 9v6M10 9v6M6 9v6M18 9v6" />
+      </svg>
+    ),
+  },
+  {
+    title: "Discreet billing",
+    body: "Your privacy matters. All transactions are processed securely with discreet billing. Only generic charges appear on your statement.",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" {...stroke}>
+        <path d="M12 1C6.5 1 2 5.5 2 11s4.5 10 10 10 10-4.5 10-10S17.5 1 12 1Z" />
+        <path d="M9 11h6M9 15h6" />
+      </svg>
+    ),
+  },
+  {
+    title: "Flexible plans",
+    body: "Choose monthly, 6-month, or annual membership. Pause or cancel anytime—no long-term commitments or hidden fees.",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" {...stroke}>
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 6v6l4 2" />
+      </svg>
+    ),
+  },
+  {
+    title: "Offline reading",
+    body: "Download books to your device and read without an internet connection. Perfect for travel or anywhere you want privacy.",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" {...stroke}>
+        <path d="M12 1v6m0 6v6M1 12h6m6 0h6" />
+        <circle cx="12" cy="12" r="4" />
+      </svg>
+    ),
+  },
+  {
+    title: "Secure & private",
+    body: "Bank-level encryption protects your data. Your reading history is private. We never share your information with third parties.",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" {...stroke}>
+        <path d="M12 1l9 4.2v7.6c0 5-4 9-9 9s-9-4-9-9V5.2L12 1Z" />
+        <path d="m9.5 12.5 2.5 2.5 4-4" />
       </svg>
     ),
   },
@@ -84,14 +84,13 @@ export function Features() {
       <div className="mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
         <div className="max-w-2xl">
           <p className="text-[11px] font-semibold tracking-[0.16em] text-accent uppercase">
-            What makes PredNim different
+            What you get
           </p>
           <h2 className="font-display mt-3 text-[clamp(2rem,4.4vw,3rem)] leading-[1.08] font-extrabold tracking-[-0.03em] text-ink">
-            Stop settling for a shelf full of maybes
+            Premium adult content made simple
           </h2>
           <p className="mt-5 text-base leading-relaxed text-muted">
-            Most bookshops help you buy more books. PredNim helps you finish them — with titles
-            chosen by people who read, and recommendations that tell you why before you spend.
+            Unlimited access to 5,000+ adult books, comics, and erotica. Private, secure, and available on all your devices.
           </p>
         </div>
 

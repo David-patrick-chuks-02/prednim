@@ -13,8 +13,18 @@ export default function ContactPage() {
       <SiteHeader />
       <main>
         <div className="mx-auto max-w-3xl px-5 sm:px-8 py-24">
-          <h1 className="font-display text-4xl font-bold text-ink mb-8">Contact</h1>
-          <p className="text-muted">Contact information coming soon.</p>
+          <h1 className="font-display text-4xl font-bold text-ink mb-8">Contact Support</h1>
+          <div className="space-y-6">
+            <div className="rounded-lg border border-line/50 bg-card/50 p-6">
+              <h2 className="font-display text-lg font-bold text-ink mb-3">Questions?</h2>
+              <p className="text-muted mb-4">Check our <a href="/faq" className="text-accent hover:text-accent-dim font-semibold">FAQ</a> for common questions about billing, subscriptions, and how to use PredNim.</p>
+            </div>
+
+            <div className="rounded-lg border border-accent/30 bg-accent/5 p-6">
+              <h2 className="font-display text-lg font-bold text-ink mb-3">Account Issues</h2>
+              <p className="text-muted">If you need help with your account, log in and use the help centre in your dashboard.</p>
+            </div>
+          </div>
         </div>
       </main>
       <SiteFooter />

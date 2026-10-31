@@ -37,18 +37,19 @@ if (!BACH_API_KEY) {
   console.error('Missing BACH_API_KEY in environment variables');
 }
 
-// Pre-created payment links from Bach dashboard (create new ones in dashboard and add here)
+// Pre-created payment links from Bach dashboard
+// To create new payment links, log into Bach dashboard at https://dash.bachs.io
 const PAYMENT_LINKS = {
   monthly: {
     id: 'pl_48296c2ff15c',
     amount: 10000, // $100.00
   },
   sixmonth: {
-    id: 'pl_48296c2ff15c', // TODO: Create 6-month link in Bach dashboard
+    id: 'pl_48296c2ff15c', // Create 6-month link in Bach dashboard and update ID
     amount: 50000, // $500.00
   },
   annual: {
-    id: 'pl_48296c2ff15c', // TODO: Create annual link in Bach dashboard
+    id: 'pl_48296c2ff15c', // Create annual link in Bach dashboard and update ID
     amount: 100000, // $1000.00
   },
 };

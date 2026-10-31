@@ -29,16 +29,8 @@ const FAQ = [
     a: "We add new titles every week. Our curated team hand-picks books to ensure the highest quality.",
   },
   {
-    q: "Can I gift a membership?",
-    a: "Yes! Gift memberships are available in 1-month, 3-month, 6-month, and 1-year options. Perfect for book lovers.",
-  },
-  {
     q: "What if I have technical issues?",
-    a: "Our support team is here to help. Email support@prednim.com or use the help centre in your account dashboard.",
-  },
-  {
-    q: "Are there parental controls?",
-    a: "Yes. You can create child accounts with restricted access to age-appropriate content only.",
+    a: "Use the help centre in your account dashboard for support. Visit the /help page for additional resources.",
   },
 ];
 

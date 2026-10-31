@@ -20,16 +20,7 @@ export const FOOTER_COLUMNS = [
       { label: "Pricing", href: "/pricing" },
       { label: "How it works", href: "/how-it-works" },
       { label: "Browse books", href: "/browse" },
-      { label: "Gift membership", href: "/gift" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About us", href: "/about" },
-      { label: "Our story", href: "/story" },
       { label: "Contact", href: "/contact" },
-      { label: "Blog", href: "/blog" },
     ],
   },
   {

@@ -19,18 +19,18 @@ export default function HowItWorksPage() {
             {[
               {
                 step: "1",
-                title: "Choose your plan",
-                description: "Select monthly, 6-month, or annual membership. All plans give you unlimited access to 5,000+ books.",
+                title: "Sign up",
+                description: "Create your account with just an email and password. Set up takes less than 2 minutes.",
               },
               {
                 step: "2",
-                title: "Browse & read",
-                description: "Explore our curated library. Read on any device—phone, tablet, or desktop. Offline reading included.",
+                title: "Choose your plan",
+                description: "Select monthly ($100), 6-month ($500), or annual ($1000) membership. All plans give unlimited access.",
               },
               {
                 step: "3",
-                title: "Enjoy perks",
-                description: "Get exclusive author interviews, access to our members-only book club, and personalized recommendations.",
+                title: "Start reading",
+                description: "Browse 5,000+ books immediately. Read on any device with offline access. Cancel anytime.",
               },
             ].map((item) => (
               <div key={item.step} className="border border-line/50 rounded-lg p-8 bg-card/50">
@@ -45,14 +45,14 @@ export default function HowItWorksPage() {
             <h2 className="font-display text-2xl font-bold text-ink mb-4">What's included</h2>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-muted">
               {[
-                "✓ 5,000+ hand-picked books",
-                "✓ Unlimited reading",
-                "✓ Offline access",
-                "✓ Sync across devices",
+                "✓ 5,000+ erotic novels & comics",
+                "✓ Unlimited reading access",
+                "✓ Offline reading (download books)",
+                "✓ Sync across all devices",
                 "✓ Discreet, secure billing",
-                "✓ Cancel anytime",
-                "✓ Priority support (6-month+)",
-                "✓ Members-only book club (annual)",
+                "✓ Cancel subscription anytime",
+                "✓ Private reading history",
+                "✓ No ads or paywalls",
               ].map((feature) => (
                 <li key={feature}>{feature}</li>
               ))}
