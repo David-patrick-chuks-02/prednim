@@ -13,7 +13,7 @@ const PLANS = {
   annual: { name: "Annual", price: 1000, period: "per year" },
 };
 
-interface BachPaymentIntent {
+interface PaymentIntent {
   id: string;
   url: string;
   plan_type: string;
@@ -27,7 +27,7 @@ export default function CheckoutPage() {
   const [selectedPlan, setSelectedPlan] = useState<keyof typeof PLANS>("sixmonth");
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [paymentIntent, setPaymentIntent] = useState<BachPaymentIntent | null>(null);
+  const [paymentIntent, setPaymentIntent] = useState<PaymentIntent | null>(null);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -54,7 +54,7 @@ export default function CheckoutPage() {
     setError(null);
 
     try {
-      // Create payment intent with Bach
+      // Create payment intent
       const response = await fetch("/api/payments/create-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -69,10 +69,10 @@ export default function CheckoutPage() {
         throw new Error("Failed to create payment intent");
       }
 
-      const intent: BachPaymentIntent = await response.json();
+      const intent: PaymentIntent = await response.json();
       setPaymentIntent(intent);
 
-      // Redirect to Bach payment page
+      // Redirect to secure payment page
       if (intent.url) {
         window.location.href = intent.url;
       }
@@ -131,9 +131,9 @@ export default function CheckoutPage() {
               )}
 
               <div className="bg-accent/10 border border-accent/30 rounded-lg p-4">
-                <p className="text-sm text-ink font-semibold mb-2">💳 Payment Method</p>
+                <p className="text-sm text-ink font-semibold mb-2">💳 Secure Payment</p>
                 <p className="text-xs text-muted">
-                  You'll be redirected to Bach to complete your payment securely. We accept all major credit cards.
+                  You'll be redirected to our secure payment processor to complete your purchase. We accept all major credit cards.
                 </p>
               </div>
               </div>

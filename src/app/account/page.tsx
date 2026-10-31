@@ -63,32 +63,15 @@ export default function AccountPage() {
               <div className="space-y-4">
                 <div>
                   <label className="text-xs font-semibold uppercase text-muted">Current plan</label>
-                  <p className="mt-1 text-lg font-bold text-accent">6-Month Plan</p>
-                  <p className="text-xs text-muted mt-1">$500 every 6 months</p>
-                </div>
-                <div>
-                  <label className="text-xs font-semibold uppercase text-muted">Status</label>
-                  <div className="mt-1 flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-green-500" />
-                    <span className="text-ink font-semibold">Active</span>
-                  </div>
-                </div>
-                <div>
-                  <label className="text-xs font-semibold uppercase text-muted">Next billing date</label>
-                  <p className="mt-1 text-ink">April 31, 2025</p>
+                  <p className="mt-1 text-lg font-bold text-accent">No active subscription</p>
+                  <p className="text-xs text-muted mt-1">Upgrade to access the full library</p>
                 </div>
                 <div className="flex gap-3 pt-4">
                   <Link
                     href="/pricing"
-                    className="rounded-lg border border-accent/30 px-4 py-2 text-sm font-semibold text-accent transition hover:bg-accent/10"
+                    className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-on-accent transition hover:bg-accent-dim"
                   >
-                    Change plan
-                  </Link>
-                  <Link
-                    href="/cancel"
-                    className="rounded-lg border border-danger/30 px-4 py-2 text-sm font-semibold text-danger transition hover:bg-danger/10"
-                  >
-                    Cancel subscription
+                    View plans
                   </Link>
                 </div>
               </div>
