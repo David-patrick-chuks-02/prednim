@@ -73,10 +73,10 @@ export function BooksGrid() {
         {/* Section Header */}
         <div className="mb-12">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-ink">
-            Our collection
+            Community collection
           </h2>
           <p className="mt-3 max-w-xl text-base text-muted leading-relaxed">
-            All books published exclusively by PredNim. Unlimited access to 5,000+ titles with any subscription plan.
+            Exclusive books created and published by our community. Unlimited access with any subscription plan.
           </p>
         </div>
 

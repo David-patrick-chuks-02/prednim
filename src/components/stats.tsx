@@ -1,9 +1,9 @@
 import { Counter } from "@/components/counter";
 
 const STATS = [
-  { to: 5000, group: true, suffix: "+", label: "Books in our library" },
+  { to: 100, decimals: 0, suffix: "%", label: "Community-created content" },
   { to: 100, decimals: 0, suffix: "%", label: "Discreet billing" },
-  { to: 3, decimals: 0, suffix: "", label: "Subscription plans to choose from" },
+  { to: 3, decimals: 0, suffix: "", label: "Subscription plans" },
   { to: 18, decimals: 0, suffix: "+", label: "Age requirement" },
 ];
 
@@ -25,7 +25,6 @@ export function Stats() {
                     to={stat.to}
                     decimals={stat.decimals ?? 0}
                     suffix={stat.suffix}
-                    group={stat.group}
                   />
                 </span>
                 <span className="mt-3 block text-[13px] leading-snug text-muted">

@@ -74,7 +74,7 @@ export function BookReader({ book, onClose }: BookReaderProps) {
               This is a preview of <strong>{book.title}</strong> by <strong>{book.author}</strong>.
             </p>
             <p>
-              PredNim provides unlimited access to this book and 5,000+ others. You can read on any device, save your
+              PredNim provides unlimited access to community-created books. You can read on any device, save your
               progress, and highlight passages.
             </p>
             <p>Features available when you subscribe:</p>

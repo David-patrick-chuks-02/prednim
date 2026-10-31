@@ -16,8 +16,8 @@ const stroke = {
 
 const FEATURES: Feature[] = [
   {
-    title: "5,000+ original books",
-    body: "Unlimited access to exclusive erotic novels, romance, and mature comics created and published by PredNim.",
+    title: "Community-created books",
+    body: "Unlimited access to exclusive erotic novels, romance, and mature comics created by our passionate community of authors.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-5 w-5" {...stroke}>
         <path d="M4 20V6.5A1.5 1.5 0 0 1 5.5 5H9a3 3 0 0 1 3 3v12" />

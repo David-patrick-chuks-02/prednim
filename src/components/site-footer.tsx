@@ -9,7 +9,7 @@ export function SiteFooter() {
           <div>
             <Logo />
             <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-muted">
-              Premium adult book & comic subscription. Unlimited access to 5,000+ titles.
+              Community-powered adult book & comic subscription. Unlimited access to exclusive content.
               Discreet, secure, 18+ only.
             </p>
           </div>

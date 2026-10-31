@@ -30,7 +30,7 @@ export default function HowItWorksPage() {
               {
                 step: "3",
                 title: "Start reading",
-                description: "Browse 5,000+ books immediately. Read on any device with offline access. Cancel anytime.",
+                description: "Browse community-created books. Read on any device with offline access. Cancel anytime.",
               },
             ].map((item) => (
               <div key={item.step} className="border border-line/50 rounded-lg p-8 bg-card/50">
@@ -45,12 +45,12 @@ export default function HowItWorksPage() {
             <h2 className="font-display text-2xl font-bold text-ink mb-4">What's included</h2>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-muted">
               {[
-                "✓ 5,000+ erotic novels & comics",
-                "✓ Unlimited reading access",
-                "✓ Offline reading (download books)",
+                "✓ Unlimited community content",
+                "✓ Erotic novels & comics",
+                "✓ Offline reading (download)",
                 "✓ Sync across all devices",
                 "✓ Discreet, secure billing",
-                "✓ Cancel subscription anytime",
+                "✓ Cancel anytime",
                 "✓ Private reading history",
                 "✓ No ads or paywalls",
               ].map((feature) => (

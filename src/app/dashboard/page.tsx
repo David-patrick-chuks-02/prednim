@@ -52,21 +52,21 @@ export default function DashboardPage() {
           </div>
 
           {/* Quick Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             <div className="rounded-lg border border-line/50 bg-card/50 p-6">
-              <div className="text-sm text-muted uppercase font-semibold">Subscription</div>
-              <div className="mt-3 text-2xl font-bold text-accent">Active</div>
-              <div className="mt-2 text-xs text-muted">Premium access</div>
+              <div className="text-sm text-muted uppercase font-semibold">Subscription Status</div>
+              <div className="mt-3 text-2xl font-bold text-accent">No Active Plan</div>
+              <div className="mt-2 text-xs text-muted">Choose a plan to get started</div>
             </div>
-            <div className="rounded-lg border border-line/50 bg-card/50 p-6">
-              <div className="text-sm text-muted uppercase font-semibold">Books Read</div>
-              <div className="mt-3 text-2xl font-bold text-ink">0</div>
-              <div className="mt-2 text-xs text-muted">Get started today</div>
-            </div>
-            <div className="rounded-lg border border-line/50 bg-card/50 p-6">
-              <div className="text-sm text-muted uppercase font-semibold">Library Access</div>
-              <div className="mt-3 text-2xl font-bold text-ink">5,000+</div>
-              <div className="mt-2 text-xs text-muted">Books available</div>
+            <div className="rounded-lg border border-accent/30 bg-accent/5 p-6">
+              <div className="text-sm text-muted uppercase font-semibold">Get Access</div>
+              <p className="mt-2 text-sm text-ink">Purchase a plan to access our community library</p>
+              <a
+                href="/pricing"
+                className="mt-4 inline-block rounded-lg bg-accent px-4 py-2 text-sm font-bold text-on-accent hover:bg-accent-dim transition"
+              >
+                View plans →
+              </a>
             </div>
           </div>
 
@@ -82,32 +82,17 @@ export default function DashboardPage() {
             </Link>
           </div>
 
-          {/* Library Section */}
-          <div className="mb-12">
-            <h2 className="font-display text-2xl font-bold text-ink mb-8">Your Library</h2>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              {BOOKS.map((book) => (
-                <div
-                  key={book.id}
-                  className="group cursor-pointer rounded-lg border border-line/50 bg-card/50 overflow-hidden transition hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5"
-                >
-                  <div className="relative h-48 overflow-hidden rounded-t-lg bg-gradient-to-br from-surface to-elevated">
-                    <img
-                      src={book.coverImage}
-                      alt={book.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                  </div>
-                  <div className="p-3">
-                    <h3 className="font-display font-bold text-ink text-xs line-clamp-1">
-                      {book.title}
-                    </h3>
-                    <p className="text-xs text-muted">{book.author}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+          {/* Library Section - Hidden without subscription */}
+          <div className="rounded-lg border border-line/50 bg-card/50 p-12 text-center">
+            <h2 className="font-display text-2xl font-bold text-ink mb-4">Community Library</h2>
+            <p className="text-muted mb-6">Unlock our exclusive community library by purchasing a subscription</p>
+            <p className="text-sm text-muted mb-6">Access hundreds of books created by our community, available immediately upon subscription.</p>
+            <a
+              href="/pricing"
+              className="inline-block rounded-lg bg-accent px-6 py-3 text-sm font-bold text-on-accent hover:bg-accent-dim transition"
+            >
+              Choose Your Plan
+            </a>
           </div>
         </div>
       </main>
