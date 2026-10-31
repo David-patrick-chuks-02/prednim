@@ -26,7 +26,7 @@ const FAQ = [
   },
   {
     q: "How often are new books added?",
-    a: "We add new titles every week. Our curated team hand-picks books to ensure the highest quality.",
+    a: "We release new original content regularly. All titles are created and published exclusively by PredNim.",
   },
   {
     q: "What if I have technical issues?",

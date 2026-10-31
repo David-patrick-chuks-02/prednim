@@ -28,7 +28,7 @@ export default function BrowsePage() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8 py-12">
           <div className="mb-12">
             <h1 className="font-display text-3xl sm:text-4xl font-bold text-ink">Browse library</h1>
-            <p className="mt-4 text-base text-muted">5,000+ hand-picked books for your reading pleasure</p>
+            <p className="mt-4 text-base text-muted">5,000+ exclusive books published by PredNim</p>
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

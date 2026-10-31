@@ -74,7 +74,7 @@ export default function DashboardPage() {
               className="group rounded-lg border border-line/50 bg-card/50 p-8 transition hover:border-accent/30 hover:bg-card/80"
             >
               <h3 className="font-display text-lg font-bold text-ink">Browse library</h3>
-              <p className="mt-2 text-sm text-muted">Explore 5,000+ hand-picked books</p>
+              <p className="mt-2 text-sm text-muted">Explore 5,000+ exclusive books from PredNim</p>
               <div className="mt-4 text-accent font-semibold">Start reading →</div>
             </Link>
 

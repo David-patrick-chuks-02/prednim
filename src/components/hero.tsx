@@ -25,7 +25,7 @@ export function Hero() {
           </h1>
 
           <p className="mt-6 max-w-xl text-base leading-relaxed text-muted">
-            Explore 5,000+ erotic novels, romance, and mature comics. Discreet access, premium selection. Read what you desire. From $100/month.
+            Explore 5,000+ exclusive erotic novels, romance, and mature comics published by PredNim. Discreet access, premium content. Read what you desire. From $100/month.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">

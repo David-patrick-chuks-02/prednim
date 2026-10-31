@@ -50,34 +50,9 @@ function BookCard({ book }: { book: typeof BOOKS[0] }) {
           <span className="font-mono text-xs text-muted">{book.rating}</span>
         </div>
 
-        {/* Price */}
-        <div className="mt-4 flex items-baseline gap-2">
-          <span className="font-display font-bold text-accent text-lg">
-            ${book.price.toFixed(2)}
-          </span>
-          {book.originalPrice && (
-            <span className="text-xs text-muted line-through">
-              ${book.originalPrice.toFixed(2)}
-            </span>
-          )}
-        </div>
-
-        {/* Stock Status */}
-        <div className="mt-3 flex items-center gap-2 text-xs">
-          <div className="h-1 flex-1 rounded-full bg-line/30 overflow-hidden">
-            <div
-              className="h-full bg-accent transition-all"
-              style={{
-                width: `${Math.min((book.inStock / 50) * 100, 100)}%`,
-              }}
-            />
-          </div>
-          <span className="text-muted min-w-fit">{book.inStock} in stock</span>
-        </div>
-
-        {/* Add to Cart Button */}
-        <button className="mt-4 w-full rounded-lg bg-accent/15 px-3 py-2.5 text-xs font-semibold text-accent transition border border-accent/30 hover:bg-accent/25 hover:border-accent/50">
-          Add to basket
+        {/* Read Button */}
+        <button className="mt-auto pt-4 w-full rounded-lg bg-accent/15 px-3 py-2.5 text-xs font-semibold text-accent transition border border-accent/30 hover:bg-accent/25 hover:border-accent/50">
+          Read now
         </button>
       </div>
     </div>
@@ -97,10 +72,10 @@ export function BooksGrid() {
         {/* Section Header */}
         <div className="mb-12">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-ink">
-            Hand-picked collection
+            Our collection
           </h2>
           <p className="mt-3 max-w-xl text-base text-muted leading-relaxed">
-            Every title is carefully selected by our team of passionate readers. Discover books you'll actually finish.
+            All books published exclusively by PredNim. Unlimited access to 5,000+ titles with any subscription plan.
           </p>
         </div>
 
@@ -114,13 +89,13 @@ export function BooksGrid() {
         {/* Call to Action */}
         <div className="mt-16 text-center">
           <p className="text-muted mb-4 text-sm">
-            Curious about more? We have over 5,000 titles in stock.
+            Browse all 5,000+ exclusive books with your subscription.
           </p>
           <a
-            href="#"
+            href="/pricing"
             className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-bold text-on-accent shadow-[0_10px_30px_-10px_rgba(61,220,106,0.3)] transition hover:bg-accent-dim"
           >
-            View all books →
+            View plans →
           </a>
         </div>
       </div>

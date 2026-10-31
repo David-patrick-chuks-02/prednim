@@ -10,32 +10,30 @@ export function FinalCta() {
       <div className="mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
         <div className="overflow-hidden rounded-3xl border border-line bg-card/70 px-6 py-14 text-center sm:px-14">
           <h2 className="font-display mx-auto max-w-2xl text-[clamp(2rem,4.6vw,3.1rem)] leading-[1.08] font-extrabold tracking-[-0.03em] text-ink">
-            Ready to find the book you’ll{" "}
-            <span className="text-accent">actually finish?</span>
+            Get unlimited access to{" "}
+            <span className="text-accent">5,000+ adult books</span>
           </h2>
           <p className="mx-auto mt-5 max-w-lg text-base leading-relaxed text-muted">
-            Stop buying books that sit on the shelf. Start building a reading list you look
-            forward to.
+            Exclusive content published by PredNim. Read anytime, anywhere. Secure, discreet, and backed by our 18+ guarantee.
           </p>
 
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <a
-              href="#shop"
+              href="/signup"
               className="rounded-full bg-accent px-7 py-3.5 text-sm font-bold text-on-accent shadow-[0_10px_30px_-10px_rgba(61,220,106,0.6)] transition hover:bg-accent-dim"
             >
-              Start browsing free
+              Get started
             </a>
             <a
-              href="#help"
+              href="/faq"
               className="rounded-full border border-line px-7 py-3.5 text-sm font-semibold text-ink transition hover:border-accent/40 hover:text-accent"
             >
-              Ask a bookseller
+              Learn more
             </a>
           </div>
 
           <p className="mt-6 text-xs text-muted">
-            Join <span className="font-semibold text-ink">10,000+ readers</span> who made the
-            switch to <Wordmark className="text-[13px]" />. Free delivery on your first order.
+            No credit card required to browse. Choose from 3 flexible plans: monthly, 6-month, or annual.
           </p>
         </div>
       </div>

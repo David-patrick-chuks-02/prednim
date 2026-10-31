@@ -79,12 +79,12 @@ export function BookReader({ book, onClose }: BookReaderProps) {
             </p>
             <p>Features available when you subscribe:</p>
             <ul className="list-disc list-inside space-y-2">
-              <li>Full book access across all 5,000+ titles</li>
-              <li>Offline reading</li>
+              <li>Full access to all 5,000+ exclusive titles</li>
+              <li>Offline reading on any device</li>
               <li>Highlight and note taking</li>
               <li>Reading progress tracking</li>
-              <li>Personalized recommendations</li>
-              <li>Sync across devices</li>
+              <li>Sync across all your devices</li>
+              <li>Discreet billing and privacy</li>
             </ul>
             <p className="pt-4 border-t border-line/30">
               <strong>Ready to start reading?</strong> Subscribe today for unlimited access to our complete library.
