@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 import { Logo } from "@/components/logo";
 import { NAV_LINKS } from "@/lib/site";
+import { useAuth } from "@/contexts/auth-context";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -38,18 +41,37 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <a
-            href="#help"
-            className="hidden text-[13px] font-medium text-muted transition hover:text-accent sm:inline"
-          >
-            Sign in
-          </a>
-          <a
-            href="#shop"
-            className="rounded-full bg-accent px-4 py-2 text-[13px] font-bold text-on-accent transition hover:bg-accent-dim"
-          >
-            Basket
-          </a>
+          {!loading && user ? (
+            <>
+              <Link
+                href="/dashboard"
+                className="hidden text-[13px] font-medium text-muted transition hover:text-accent sm:inline"
+              >
+                Dashboard
+              </Link>
+              <Link
+                href="/account"
+                className="rounded-full bg-accent px-4 py-2 text-[13px] font-bold text-on-accent transition hover:bg-accent-dim"
+              >
+                Account
+              </Link>
+            </>
+          ) : !loading ? (
+            <>
+              <Link
+                href="/login"
+                className="hidden text-[13px] font-medium text-muted transition hover:text-accent sm:inline"
+              >
+                Sign in
+              </Link>
+              <Link
+                href="/signup"
+                className="rounded-full bg-accent px-4 py-2 text-[13px] font-bold text-on-accent transition hover:bg-accent-dim"
+              >
+                Sign up
+              </Link>
+            </>
+          ) : null}
           <button
             type="button"
             aria-label="Toggle navigation"

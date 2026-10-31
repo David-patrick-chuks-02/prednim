@@ -1,5 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/auth-context";
+
 const PLANS = [
   {
     name: "Monthly",
@@ -54,6 +57,17 @@ const PLANS = [
 ];
 
 export function Pricing() {
+  const router = useRouter();
+  const { user } = useAuth();
+
+  const handleSelectPlan = () => {
+    if (!user) {
+      router.push("/signup");
+    } else {
+      router.push("/checkout");
+    }
+  };
+
   return (
     <section id="pricing" className="scroll-mt-20 relative py-16 sm:py-24">
       {/* Background decoration */}
@@ -109,6 +123,7 @@ export function Pricing() {
 
                 {/* CTA Button */}
                 <button
+                  onClick={handleSelectPlan}
                   className={`mt-8 w-full rounded-lg px-4 py-3 text-sm font-semibold transition ${
                     plan.highlighted
                       ? "bg-accent text-on-accent hover:bg-accent-dim shadow-lg shadow-accent/20"

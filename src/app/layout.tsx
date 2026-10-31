@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Manrope, Syne } from "next/font/google";
 
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
+import { LayoutClient } from "./layout-client";
 import "./globals.css";
 
 const display = Syne({
@@ -67,7 +68,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
-      <body className="min-h-screen antialiased">{children}</body>
+      <body className="min-h-screen antialiased">
+        <LayoutClient>{children}</LayoutClient>
+      </body>
     </html>
   );
 }
