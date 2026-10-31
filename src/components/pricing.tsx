@@ -16,7 +16,7 @@ const PLANS = [
       "Sync across devices",
       "Cancel anytime",
     ],
-    cta: "Start free trial",
+    cta: "Get started",
     highlighted: false,
   },
   {
@@ -51,7 +51,7 @@ const PLANS = [
       "Members-only book club",
       "33% savings vs monthly",
     ],
-    cta: "Start free trial",
+    cta: "Get started",
     highlighted: false,
   },
 ];
@@ -160,7 +160,7 @@ export function Pricing() {
         {/* Bottom Text */}
         <div className="mt-12 text-center">
           <p className="text-sm text-muted">
-            All plans include a 7-day free trial. No credit card required.
+            Discreet billing. Cancel anytime.
           </p>
         </div>
       </div>

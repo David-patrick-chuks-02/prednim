@@ -38,7 +38,7 @@ export default function SignUpPage() {
         <div className="mx-auto max-w-md px-5 sm:px-8 py-24">
           <div className="mb-8">
             <h1 className="font-display text-3xl font-bold text-ink">Create your account</h1>
-            <p className="mt-2 text-muted">Start your 7-day free trial today</p>
+            <p className="mt-2 text-muted">Join premium adult content library</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">

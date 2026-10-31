@@ -1,10 +1,11 @@
 import { verifyWebhookSignature } from "@/lib/bach";
-import { createClient } from "@supabase/ssr";
+import { createServerClient } from "@supabase/ssr";
 import { headers } from "next/headers";
+import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   try {
-    const headersList = headers();
+    const headersList = await headers();
     const signature = headersList.get("x-bach-signature");
     const body = await request.text();
 
@@ -22,10 +23,18 @@ export async function POST(request: Request) {
 
     const event = JSON.parse(body);
 
-    // Initialize Supabase admin client
-    const supabase = createClient(
+    // Initialize Supabase server client
+    const cookieStore = await cookies();
+    const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return cookieStore.getAll();
+          },
+        },
+      }
     );
 
     switch (event.type) {

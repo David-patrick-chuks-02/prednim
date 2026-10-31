@@ -53,7 +53,7 @@ export default function DashboardPage() {
             <div className="rounded-lg border border-line/50 bg-card/50 p-6">
               <div className="text-sm text-muted uppercase font-semibold">Subscription</div>
               <div className="mt-3 text-2xl font-bold text-accent">Active</div>
-              <div className="mt-2 text-xs text-muted">7-day free trial</div>
+              <div className="mt-2 text-xs text-muted">Premium access</div>
             </div>
             <div className="rounded-lg border border-line/50 bg-card/50 p-6">
               <div className="text-sm text-muted uppercase font-semibold">Books Read</div>
@@ -80,7 +80,7 @@ export default function DashboardPage() {
 
             <div className="rounded-lg border border-accent/30 bg-accent/5 p-8">
               <h3 className="font-display text-lg font-bold text-ink">Your plan</h3>
-              <p className="mt-2 text-sm text-muted">7-day free trial • Cancel anytime</p>
+              <p className="mt-2 text-sm text-muted">Premium subscription • Cancel anytime</p>
               <Link
                 href="/account"
                 className="mt-4 inline-block text-accent font-semibold hover:text-accent-dim"

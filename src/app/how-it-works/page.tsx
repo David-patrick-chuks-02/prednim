@@ -49,7 +49,7 @@ export default function HowItWorksPage() {
                 "✓ Unlimited reading",
                 "✓ Offline access",
                 "✓ Sync across devices",
-                "✓ 7-day free trial",
+                "✓ Discreet, secure billing",
                 "✓ Cancel anytime",
                 "✓ Priority support (6-month+)",
                 "✓ Members-only book club (annual)",

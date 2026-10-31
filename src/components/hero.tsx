@@ -50,8 +50,8 @@ export function Hero() {
             </div>
             <div className="h-6 w-px bg-line/20" />
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-accent">7 days</span>
-              <span className="text-xs text-muted">free trial</span>
+              <span className="text-2xl font-bold text-accent">$100</span>
+              <span className="text-xs text-muted">from monthly</span>
             </div>
           </div>
         </div>

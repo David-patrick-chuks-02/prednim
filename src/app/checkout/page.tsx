@@ -167,7 +167,7 @@ export default function CheckoutPage() {
                 </button>
 
                 <p className="mt-4 text-xs text-muted text-center">
-                  Your subscription includes 7-day free trial. Cancel anytime.
+                  Cancel anytime. Discreet billing.
                 </p>
               </div>
             </div>

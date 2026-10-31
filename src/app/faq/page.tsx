@@ -13,8 +13,8 @@ const FAQ = [
     a: "Yes! You can cancel your subscription anytime without penalties or additional fees. Your access continues until the end of your billing period.",
   },
   {
-    q: "Is there a free trial?",
-    a: "Absolutely. All plans include a 7-day free trial. You can explore our entire library at no cost. No credit card required.",
+    q: "How does billing work?",
+    a: "Billing is secure and discreet. Your statement shows only a generic charge. We accept all major credit cards. Choose monthly, 6-month, or annual plans.",
   },
   {
     q: "Can I read offline?",

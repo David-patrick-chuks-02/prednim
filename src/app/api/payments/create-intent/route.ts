@@ -1,6 +1,4 @@
 import { createOrGetCustomer, createPaymentIntent } from "@/lib/bach";
-import { createClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   try {
@@ -20,20 +18,6 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-
-    // Get user ID from Supabase auth
-    const cookieStore = cookies();
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return cookieStore.getAll();
-          },
-        },
-      }
-    );
 
     // Create or get Bach customer
     const customer = await createOrGetCustomer(
