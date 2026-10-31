@@ -90,7 +90,7 @@ export function Features() {
             Premium adult content made simple
           </h2>
           <p className="mt-5 text-base leading-relaxed text-muted">
-            Unlimited access to 5,000+ adult books, comics, and erotica. Private, secure, and available on all your devices.
+            Unlimited access to community-created adult books, comics, and erotica. Private, secure, and available on all your devices.
           </p>
         </div>
 

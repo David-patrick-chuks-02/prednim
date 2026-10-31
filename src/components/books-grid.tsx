@@ -90,7 +90,7 @@ export function BooksGrid() {
         {/* Call to Action */}
         <div className="mt-16 text-center">
           <p className="text-muted mb-4 text-sm">
-            Browse all 5,000+ exclusive books with your subscription.
+            Browse our community collection with your subscription.
           </p>
           <a
             href="/pricing"

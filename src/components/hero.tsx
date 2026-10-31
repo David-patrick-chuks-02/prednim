@@ -45,8 +45,8 @@ export function Hero() {
 
           <div className="mt-8 flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-accent">5,000+</span>
-              <span className="text-xs text-muted">books available</span>
+              <span className="text-2xl font-bold text-accent">∞</span>
+              <span className="text-xs text-muted">community books</span>
             </div>
             <div className="h-6 w-px bg-line/20" />
             <div className="flex items-center gap-2">

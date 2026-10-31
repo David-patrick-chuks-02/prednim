@@ -79,7 +79,7 @@ export function BookReader({ book, onClose }: BookReaderProps) {
             </p>
             <p>Features available when you subscribe:</p>
             <ul className="list-disc list-inside space-y-2">
-              <li>Full access to all 5,000+ exclusive titles</li>
+              <li>Full access to all community titles</li>
               <li>Offline reading on any device</li>
               <li>Highlight and note taking</li>
               <li>Reading progress tracking</li>
