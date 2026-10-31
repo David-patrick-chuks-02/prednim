@@ -1,6 +1,7 @@
 /**
  * Bach Payment Integration
- * https://docs.bachs.io/guides/payments/overview
+ * API Docs: https://docs.bachs.io/developer-portal/api-keys
+ * Payment Docs: https://docs.bachs.io/guides/payments/overview
  */
 
 export interface BachPaymentIntent {
@@ -31,9 +32,13 @@ export interface BachSubscription {
   cancel_at_period_end: boolean;
 }
 
-const BACH_API_URL = process.env.NEXT_PUBLIC_BACH_API_URL || 'https://api.bachs.io/v1';
-const BACH_SECRET_KEY = process.env.BACH_SECRET_KEY;
-const BACH_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_BACH_PUBLISHABLE_KEY;
+// Bach uses a single API key format: sbp_live_xxxxx or sbp_test_xxxxx
+const BACH_API_URL = process.env.BACH_API_URL || 'https://api.bachs.io/v1';
+const BACH_API_KEY = process.env.BACH_API_KEY;
+
+if (!BACH_API_KEY) {
+  console.error('Missing BACH_API_KEY in environment variables');
+}
 
 /**
  * Create a payment intent for a subscription
@@ -53,7 +58,7 @@ export async function createPaymentIntent(
   const response = await fetch(`${BACH_API_URL}/payment_intents`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${BACH_SECRET_KEY}`,
+      'Authorization': `Bearer ${BACH_API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -88,7 +93,7 @@ export async function createOrGetCustomer(
   const response = await fetch(`${BACH_API_URL}/customers`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${BACH_SECRET_KEY}`,
+      'Authorization': `Bearer ${BACH_API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -118,7 +123,7 @@ export async function createSubscription(
   const response = await fetch(`${BACH_API_URL}/subscriptions`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${BACH_SECRET_KEY}`,
+      'Authorization': `Bearer ${BACH_API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -141,7 +146,7 @@ export async function createSubscription(
 export async function getSubscription(subscriptionId: string): Promise<BachSubscription> {
   const response = await fetch(`${BACH_API_URL}/subscriptions/${subscriptionId}`, {
     headers: {
-      'Authorization': `Bearer ${BACH_SECRET_KEY}`,
+      'Authorization': `Bearer ${BACH_API_KEY}`,
     },
   });
 
@@ -159,7 +164,7 @@ export async function cancelSubscription(subscriptionId: string): Promise<BachSu
   const response = await fetch(`${BACH_API_URL}/subscriptions/${subscriptionId}`, {
     method: 'DELETE',
     headers: {
-      'Authorization': `Bearer ${BACH_SECRET_KEY}`,
+      'Authorization': `Bearer ${BACH_API_KEY}`,
     },
   });
 
@@ -199,11 +204,11 @@ export function generatePaymentButtonHTML(paymentIntentId: string): string {
 }
 
 /**
- * Get publishable key for client-side
+ * Verify API key is configured
  */
-export function getPublishableKey(): string {
-  if (!BACH_PUBLISHABLE_KEY) {
-    throw new Error('Bach publishable key not configured');
+export function verifyBachApiKey(): boolean {
+  if (!BACH_API_KEY) {
+    throw new Error('Bach API key (BACH_API_KEY) not configured in environment variables');
   }
-  return BACH_PUBLISHABLE_KEY;
+  return true;
 }
