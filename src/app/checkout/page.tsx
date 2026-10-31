@@ -15,8 +15,10 @@ const PLANS = {
 
 interface BachPaymentIntent {
   id: string;
-  status: string;
-  client_secret?: string;
+  url: string;
+  plan_type: string;
+  amount: number;
+  currency: string;
 }
 
 export default function CheckoutPage() {
@@ -71,8 +73,8 @@ export default function CheckoutPage() {
       setPaymentIntent(intent);
 
       // Redirect to Bach payment page
-      if (intent.id) {
-        window.location.href = `https://bachs.io/pay/${intent.id}`;
+      if (intent.url) {
+        window.location.href = intent.url;
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Payment failed");

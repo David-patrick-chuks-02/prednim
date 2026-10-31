@@ -6,13 +6,10 @@
 
 export interface BachPaymentIntent {
   id: string;
-  status: 'pending' | 'processing' | 'succeeded' | 'failed';
+  url: string;
+  plan_type: 'monthly' | 'sixmonth' | 'annual';
   amount: number;
   currency: string;
-  customer_id: string;
-  plan_type: 'monthly' | 'sixmonth' | 'annual';
-  metadata: Record<string, any>;
-  created_at: string;
 }
 
 export interface BachCustomer {
@@ -40,8 +37,26 @@ if (!BACH_API_KEY) {
   console.error('Missing BACH_API_KEY in environment variables');
 }
 
+// Pre-created payment links from Bach dashboard (create new ones in dashboard and add here)
+const PAYMENT_LINKS = {
+  monthly: {
+    id: 'pl_48296c2ff15c',
+    amount: 10000, // $100.00
+  },
+  sixmonth: {
+    id: 'pl_48296c2ff15c', // TODO: Create 6-month link in Bach dashboard
+    amount: 50000, // $500.00
+  },
+  annual: {
+    id: 'pl_48296c2ff15c', // TODO: Create annual link in Bach dashboard
+    amount: 100000, // $1000.00
+  },
+};
+
 /**
- * Create a payment intent for a subscription
+ * Get payment link for a plan
+ * Payment links are pre-created in Bach dashboard
+ * Redirect user to: https://checkout.bachs.io/pay/{payment_link_id}
  */
 export async function createPaymentIntent(
   customerId: string,
@@ -49,37 +64,19 @@ export async function createPaymentIntent(
   email: string,
   name: string
 ): Promise<BachPaymentIntent> {
-  const prices = {
-    monthly: 10000, // $100.00 in cents
-    sixmonth: 50000, // $500.00 in cents
-    annual: 100000, // $1000.00 in cents
-  };
+  const link = PAYMENT_LINKS[planType];
 
-  const response = await fetch(`${BACH_API_URL}/payment_intents`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${BACH_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      amount: prices[planType],
-      currency: 'USD',
-      customer_id: customerId,
-      plan_type: planType,
-      description: `${planType.charAt(0).toUpperCase() + planType.slice(1)} Subscription - PredNim`,
-      metadata: {
-        email,
-        name,
-        plan_type: planType,
-      },
-    }),
-  });
-
-  if (!response.ok) {
-    throw new Error(`Bach API error: ${response.statusText}`);
+  if (!link) {
+    throw new Error(`No payment link configured for plan: ${planType}`);
   }
 
-  return response.json();
+  return {
+    id: link.id,
+    url: `https://checkout.bachs.io/pay/${link.id}`,
+    plan_type: planType,
+    amount: link.amount,
+    currency: 'USD',
+  };
 }
 
 /**
