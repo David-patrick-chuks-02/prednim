@@ -41,27 +41,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signUp = async (email: string, password: string, name: string) => {
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: name,
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name,
+          },
         },
-      },
-    });
-    if (error) throw error;
-    setLoading(false);
+      });
+      if (error) {
+        console.error("SignUp error:", error);
+        throw new Error(error.message || "Failed to sign up");
+      }
+      setLoading(false);
+    } catch (err: any) {
+      setLoading(false);
+      console.error("SignUp exception:", err);
+      throw new Error(err?.message || "Network error connecting to auth service");
+    }
   };
 
   const signIn = async (email: string, password: string) => {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) throw error;
-    setLoading(false);
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) {
+        console.error("SignIn error:", error);
+        throw new Error(error.message || "Failed to sign in");
+      }
+      setLoading(false);
+    } catch (err: any) {
+      setLoading(false);
+      console.error("SignIn exception:", err);
+      throw new Error(err?.message || "Network error connecting to auth service");
+    }
   };
 
   const signOut = async () => {
