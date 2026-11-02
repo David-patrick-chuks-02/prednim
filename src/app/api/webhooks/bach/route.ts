@@ -99,10 +99,10 @@ async function handlePaymentFailed(event: any, supabase: any) {
 async function handleSubscriptionCreated(event: any, supabase: any) {
   const { data: subscription } = event;
 
-  const { error } = await supabase.from("subscriptions").update(
-    { status: "active" },
-    { eq: "id", value: subscription.id }
-  );
+  const { error } = await supabase
+    .from("subscriptions")
+    .update({ status: "active" })
+    .eq("id", subscription.id);
 
   if (error) {
     console.error("Failed to update subscription status:", error);
@@ -112,10 +112,10 @@ async function handleSubscriptionCreated(event: any, supabase: any) {
 async function handleSubscriptionCancelled(event: any, supabase: any) {
   const { data: subscription } = event;
 
-  const { error } = await supabase.from("subscriptions").update(
-    { status: "cancelled", cancelled_at: new Date().toISOString() },
-    { eq: "id", value: subscription.id }
-  );
+  const { error } = await supabase
+    .from("subscriptions")
+    .update({ status: "cancelled", cancelled_at: new Date().toISOString() })
+    .eq("id", subscription.id);
 
   if (error) {
     console.error("Failed to cancel subscription:", error);
