@@ -146,31 +146,6 @@ export default function DashboardPage() {
               <div className="mb-12">
                 <PremiumBooks userId={user?.id} />
               </div>
-
-              {/* Books Grid */}
-              <div className="mb-12">
-                <h2 className="font-display text-2xl font-bold text-ink mb-6">Community Library</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {BOOKS.map((book) => (
-                    <button
-                      key={book.id}
-                      onClick={() => setSelectedBook(book)}
-                      className="group text-left transition-transform hover:scale-105"
-                    >
-                      <div className="relative mb-4 overflow-hidden rounded-lg bg-muted h-64">
-                        <Image
-                          src={book.coverImage}
-                          alt={book.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <h3 className="font-display font-bold text-ink group-hover:text-accent transition">{book.title}</h3>
-                      <p className="text-sm text-muted">{book.author}</p>
-                    </button>
-                  ))}
-                </div>
-              </div>
             </>
           )}
 

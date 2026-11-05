@@ -80,37 +80,57 @@ export function PremiumBooks({ userId }: PremiumBooksProps) {
       <div>
         <h2 className="text-2xl font-bold text-ink mb-6">📚 Premium Library</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {books.map((book) => (
-            <button
-              key={book.id}
-              onClick={() => setSelectedBook(book)}
-              className="group rounded-lg border border-line/50 bg-card/30 overflow-hidden hover:border-accent/50 hover:bg-card/50 transition-all duration-200 text-left"
-            >
-              <div className="aspect-[3/4] bg-gradient-to-br from-accent/10 to-accent/5 relative overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center space-y-2 p-4">
-                    <div className="text-3xl">📖</div>
-                    <div className="text-xs text-muted">{book.pages} pages</div>
+          {books.map((book, idx) => {
+            const gradients = [
+              'from-purple-600 to-pink-600',
+              'from-blue-600 to-cyan-600',
+              'from-emerald-600 to-teal-600',
+              'from-amber-600 to-orange-600',
+              'from-rose-600 to-pink-600',
+              'from-indigo-600 to-purple-600',
+              'from-cyan-600 to-blue-600',
+              'from-lime-600 to-emerald-600',
+              'from-orange-600 to-amber-600',
+              'from-pink-600 to-rose-600',
+            ];
+            const gradient = gradients[idx % gradients.length];
+
+            return (
+              <button
+                key={book.id}
+                onClick={() => setSelectedBook(book)}
+                className="group rounded-lg border border-line/50 overflow-hidden hover:border-accent/50 transition-all duration-200 text-left hover:shadow-lg hover:shadow-accent/20"
+              >
+                <div className={`aspect-[3/4] bg-gradient-to-br ${gradient} relative overflow-hidden flex flex-col justify-between p-6`}>
+                  <div>
+                    <div className="text-4xl font-bold text-white/20 mb-4">✦</div>
+                  </div>
+                  <div className="text-center">
+                    <h3 className="font-bold text-white text-lg leading-tight line-clamp-3 mb-3">
+                      {book.title}
+                    </h3>
+                    <p className="text-white/80 text-xs line-clamp-2">
+                      {book.description}
+                    </p>
                   </div>
                 </div>
-              </div>
 
-              <div className="p-4 space-y-2">
-                <h3 className="font-semibold text-ink group-hover:text-accent transition line-clamp-2">
-                  {book.title}
-                </h3>
-                <p className="text-xs text-muted line-clamp-2">
-                  {book.description}
-                </p>
-                <div className="flex items-center justify-between pt-2 border-t border-line/30">
-                  <span className="text-xs text-muted">
-                    {book.chapters} chapters
-                  </span>
-                  <span className="text-xs font-semibold text-accent">Read →</span>
+                <div className="p-4 bg-card/50 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted">
+                      {book.pages} pages
+                    </span>
+                    <span className="text-xs text-muted">
+                      {book.chapters} chapters
+                    </span>
+                  </div>
+                  <div className="text-right pt-2 border-t border-line/30">
+                    <span className="text-xs font-semibold text-accent">Read →</span>
+                  </div>
                 </div>
-              </div>
-            </button>
-          ))}
+              </button>
+            );
+          })}
         </div>
       </div>
     </>
