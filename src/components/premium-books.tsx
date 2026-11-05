@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { PremiumBook } from "@/lib/premiumBooks";
-import { PremiumBookReader } from "./premium-book-reader";
-import { ChevronRight } from "lucide-react";
+import { PremiumBookReaderV2 } from "./premium-book-reader-v2";
 
 interface PremiumBooksProps {
   userId?: string;
@@ -72,7 +71,7 @@ export function PremiumBooks({ userId }: PremiumBooksProps) {
   return (
     <>
       {selectedBook && (
-        <PremiumBookReader
+        <PremiumBookReaderV2
           book={selectedBook}
           onClose={() => setSelectedBook(null)}
         />
@@ -95,13 +94,8 @@ export function PremiumBooks({ userId }: PremiumBooksProps) {
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-200"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end">
-                    <div className="w-full p-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-white font-semibold">{book.pages} pages</span>
-                        <ChevronRight size={16} className="text-accent" />
-                      </div>
-                    </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end justify-center">
+                    <span className="text-sm text-white font-semibold">Read →</span>
                   </div>
                 </div>
               )}
@@ -110,13 +104,10 @@ export function PremiumBooks({ userId }: PremiumBooksProps) {
                 <h3 className="font-semibold text-ink group-hover:text-accent transition line-clamp-2">
                   {book.title}
                 </h3>
-                <p className="text-xs text-muted line-clamp-2">
+                <p className="text-xs text-muted line-clamp-3">
                   {book.description}
                 </p>
-                <div className="flex items-center justify-between pt-2 border-t border-line/30">
-                  <span className="text-xs text-muted">
-                    {book.chapters} chapters
-                  </span>
+                <div className="flex items-center justify-end pt-2 border-t border-line/30">
                   <span className="text-xs font-semibold text-accent">Read →</span>
                 </div>
               </div>

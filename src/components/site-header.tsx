@@ -106,11 +106,20 @@ export function SiteHeader() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="border-b border-line/60 py-3 text-sm font-medium text-muted last:border-0 hover:text-accent"
+                className="border-b border-line/60 py-3 text-sm font-medium text-muted hover:text-accent"
               >
                 {link.label}
               </a>
             ))}
+            {!loading && user && (
+              <Link
+                href="/dashboard"
+                onClick={() => setOpen(false)}
+                className="border-b border-line/60 py-3 text-sm font-medium text-muted last:border-0 hover:text-accent"
+              >
+                Dashboard
+              </Link>
+            )}
           </nav>
         </div>
       ) : null}
