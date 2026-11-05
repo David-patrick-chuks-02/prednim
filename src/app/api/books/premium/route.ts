@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     // Check if user has active subscription
     const { data: subscription, error: subError } = await supabase
       .from("subscriptions")
-      .select("status, plan")
+      .select("status, plan_type")
       .eq("user_id", user.id)
       .eq("status", "active")
       .single();
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       books: PREMIUM_BOOKS,
       subscription: {
-        plan: subscription.plan,
+        plan: subscription.plan_type,
         status: subscription.status,
       },
     });
