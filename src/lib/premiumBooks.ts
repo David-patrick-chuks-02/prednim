@@ -19,6 +19,7 @@ export const PREMIUM_BOOKS: PremiumBook[] = [
     pages: 714,
     chapters: 31,
     pdfUrl: "/books/the-cartographer-of-borrowed-rain/THE_CARTOGRAPHER_OF_BORROWED_RAIN.pdf",
+    coverUrl: "/books/the-cartographer-of-borrowed-rain/cover.jpg",
     createdAt: "2026-11-05",
   },
   {
@@ -29,6 +30,7 @@ export const PREMIUM_BOOKS: PremiumBook[] = [
     pages: 714,
     chapters: 31,
     pdfUrl: "/books/a-museum-for-unfinished-goodbyes/A_MUSEUM_FOR_UNFINISHED_GOODBYES.pdf",
+    coverUrl: "/books/a-museum-for-unfinished-goodbyes/cover.jpg",
     createdAt: "2026-11-05",
   },
   {
