@@ -110,17 +110,6 @@ export default function BookPage() {
                 </p>
               </div>
 
-              {/* Book Stats - Minimal */}
-              <div className="flex gap-8 pt-4">
-                <div>
-                  <p className="text-xs font-semibold text-muted/70 mb-1">Pages</p>
-                  <p className="text-2xl font-bold text-ink">{book.pages}</p>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-muted/70 mb-1">Publisher</p>
-                  <p className="text-lg font-semibold text-ink">Prednim</p>
-                </div>
-              </div>
             </div>
 
             {/* Download CTA - Single Button */}
