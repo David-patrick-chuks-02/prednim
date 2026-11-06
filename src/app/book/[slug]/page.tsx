@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Download } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { PREMIUM_BOOKS } from '@/lib/premiumBooks';
 
 interface PageProps {
@@ -13,8 +14,17 @@ interface PageProps {
 }
 
 export default function BookPage({ params }: PageProps) {
-  const book = PREMIUM_BOOKS.find(b => b.slug === params.slug);
+  const [book, setBook] = useState<any>(null);
   const [downloading, setDownloading] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    // Find book by slug from params
+    if (params?.slug) {
+      const foundBook = PREMIUM_BOOKS.find(b => b.slug === params.slug);
+      setBook(foundBook || null);
+    }
+  }, [params?.slug]);
 
   if (!book) {
     return (
