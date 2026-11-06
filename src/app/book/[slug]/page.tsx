@@ -63,22 +63,14 @@ export default function BookPage() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="sticky top-0 z-40 bg-card/80 backdrop-blur border-b border-line/30">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 text-accent hover:text-accent/80 transition"
+            className="flex items-center gap-2 text-accent hover:text-accent/80 transition w-fit"
           >
             <ArrowLeft size={20} />
-            <span className="text-sm font-medium">Back</span>
+            <span className="text-sm font-medium">Back to Dashboard</span>
           </Link>
-          <button
-            onClick={handleDownload}
-            disabled={downloading}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-accent text-on-accent font-semibold hover:bg-accent/90 transition disabled:opacity-50"
-          >
-            <Download size={20} />
-            {downloading ? 'Downloading...' : 'Download'}
-          </button>
         </div>
       </div>
 
