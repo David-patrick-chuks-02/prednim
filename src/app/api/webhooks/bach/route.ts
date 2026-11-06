@@ -9,19 +9,28 @@ export async function POST(request: Request) {
     const signature = headersList.get("x-bach-signature");
     const body = await request.text();
 
+    console.log(`[Bach Webhook] Received event`, { signature: signature?.slice(0, 10) + "..." });
+
     if (!signature) {
-      return new Response("Missing signature", { status: 401 });
+      console.error("[Bach Webhook] Missing signature header");
+      return new Response(JSON.stringify({ error: "Missing signature" }), { status: 401, headers: { "Content-Type": "application/json" } });
     }
 
     // Verify webhook signature
-    const secret = process.env.BACH_WEBHOOK_SECRET!;
-    const isValid = verifyWebhookSignature(body, signature, secret);
+    const secret = process.env.BACH_WEBHOOK_SECRET;
+    if (!secret || secret.includes("test_xxxxx")) {
+      console.error("[Bach Webhook] Missing or invalid BACH_WEBHOOK_SECRET in environment");
+      return new Response(JSON.stringify({ error: "Webhook secret not configured" }), { status: 500, headers: { "Content-Type": "application/json" } });
+    }
 
+    const isValid = verifyWebhookSignature(body, signature, secret);
     if (!isValid) {
-      return new Response("Invalid signature", { status: 401 });
+      console.error("[Bach Webhook] Invalid signature - secret may be misconfigured");
+      return new Response(JSON.stringify({ error: "Invalid signature" }), { status: 401, headers: { "Content-Type": "application/json" } });
     }
 
     const event = JSON.parse(body);
+    console.log(`[Bach Webhook] Processing event type: ${event.type}`);
 
     // Initialize Supabase server client
     const cookieStore = await cookies();
@@ -55,38 +64,50 @@ export async function POST(request: Request) {
         break;
 
       default:
-        console.log(`Unhandled webhook event: ${event.type}`);
+        console.log(`[Bach Webhook] Unhandled webhook event: ${event.type}`);
     }
 
-    return new Response("Webhook processed", { status: 200 });
+    console.log(`[Bach Webhook] Successfully processed ${event.type}`);
+    return new Response(JSON.stringify({ success: true }), { status: 200, headers: { "Content-Type": "application/json" } });
   } catch (error) {
-    console.error("Webhook processing error:", error);
-    return new Response("Webhook processing failed", { status: 500 });
+    console.error("[Bach Webhook] Processing error:", error instanceof Error ? error.message : error);
+    return new Response(JSON.stringify({ error: "Processing failed" }), { status: 500, headers: { "Content-Type": "application/json" } });
   }
 }
 
 async function handlePaymentSucceeded(event: any, supabase: any) {
   const { data: paymentIntent } = event;
 
+  if (!paymentIntent) {
+    throw new Error("Missing paymentIntent in event data");
+  }
+
+  const userId = paymentIntent.metadata?.user_id || paymentIntent.customer_email;
+  if (!userId) {
+    throw new Error("Missing user_id in payment metadata");
+  }
+
+  console.log(`[Bach] Processing payment for user: ${userId}`);
+
   // Create or update subscription in database
   const { error } = await supabase.from("subscriptions").upsert(
     {
-      user_id: paymentIntent.metadata.user_id || paymentIntent.customer_email,
-      plan_type: paymentIntent.plan_type,
-      price: paymentIntent.amount / 100,
+      user_id: userId,
+      plan_type: paymentIntent.plan_type || "monthly",
+      price: paymentIntent.amount ? paymentIntent.amount / 100 : 0,
       status: "active",
-      started_at: new Date().toISOString(),
-      expires_at: calculateExpiryDate(paymentIntent.plan_type),
+      current_period_start: new Date().toISOString(),
+      current_period_end: calculateExpiryDate(paymentIntent.plan_type),
     },
     { onConflict: "user_id" }
   );
 
   if (error) {
-    console.error("Failed to update subscription:", error);
+    console.error(`[Bach] Failed to update subscription for user ${userId}:`, error);
     throw error;
   }
 
-  console.log("Payment succeeded and subscription created");
+  console.log(`[Bach] Payment succeeded and subscription created for user: ${userId}`);
 }
 
 async function handlePaymentFailed(event: any, supabase: any) {
