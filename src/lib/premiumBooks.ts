@@ -278,7 +278,7 @@ export const PREMIUM_BOOKS: PremiumBook[] = [
   {
     id: "pb-025",
     title: "The Clockmaker's Blue Envelope",
-    slug: "the-clockmakers-blue-envelope",
+    slug: "the-clockmaker's-blue-envelope",
     description: "Inside a weathered envelope lies a secret that stops time itself.",
     pages: 714,
     chapters: 31,
