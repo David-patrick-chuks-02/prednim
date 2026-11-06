@@ -4,27 +4,36 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Download } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { PREMIUM_BOOKS } from '@/lib/premiumBooks';
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default function BookPage({ params }: PageProps) {
+export default function BookPage() {
   const [book, setBook] = useState<any>(null);
   const [downloading, setDownloading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const params = useParams();
 
   useEffect(() => {
-    // Find book by slug from params
+    // Find book by slug from URL params
     if (params?.slug) {
-      const foundBook = PREMIUM_BOOKS.find(b => b.slug === params.slug);
+      const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
+      const foundBook = PREMIUM_BOOKS.find(b => b.slug === slug);
       setBook(foundBook || null);
+      setLoading(false);
     }
   }, [params?.slug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-accent"></div>
+          <p className="mt-4 text-muted">Loading book...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!book) {
     return (
