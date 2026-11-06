@@ -1,5 +1,7 @@
 # A Thousand Windows Facing North
 
+![A Thousand Windows Facing North Cover](/books/a-thousand-windows-facing-north/cover.jpg)
+
 Building dweller discovering secrets behind every window, each pane revealing a different truth.
 
 ---

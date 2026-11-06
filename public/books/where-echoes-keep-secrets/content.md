@@ -1,5 +1,7 @@
 # Where Echoes Keep Secrets
 
+![Where Echoes Keep Secrets Cover](/books/where-echoes-keep-secrets/cover.jpg)
+
 Sound engineer discovering voices trapped in old buildings, each wall a witness to history.
 
 ---

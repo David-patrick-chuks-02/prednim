@@ -1,5 +1,7 @@
 # A Museum for Unfinished Goodbyes
 
+![A Museum for Unfinished Goodbyes Cover](/books/a-museum-for-unfinished-goodbyes/cover.jpg)
+
 A curator collecting objects left behind at heartbreak, building a collection of unspoken farewells.
 
 ---

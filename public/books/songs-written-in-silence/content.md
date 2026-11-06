@@ -1,5 +1,7 @@
 # Songs Written in Silence
 
+![Songs Written in Silence Cover](/books/songs-written-in-silence/cover.jpg)
+
 Composer translating emotions into melodies that only the grieving can hear.
 
 ---

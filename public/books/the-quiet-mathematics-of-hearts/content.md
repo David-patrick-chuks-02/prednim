@@ -1,5 +1,7 @@
 # The Quiet Mathematics of Hearts
 
+![The Quiet Mathematics of Hearts Cover](/books/the-quiet-mathematics-of-hearts/cover.jpg)
+
 Mathematician calculating patterns of love and loss, finding equations in the chaos of emotion.
 
 ---

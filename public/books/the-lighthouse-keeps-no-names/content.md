@@ -1,5 +1,7 @@
 # The Lighthouse Keeps No Names
 
+![The Lighthouse Keeps No Names Cover](/books/the-lighthouse-keeps-no-names/cover.jpg)
+
 Lighthouse keeper protecting lost souls finding refuge in the beam of a lighthouse that forgets nothing.
 
 ---

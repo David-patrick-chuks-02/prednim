@@ -1,5 +1,7 @@
 # The Garden of What Could Have Been
 
+![The Garden of What Could Have Been Cover](/books/the-garden-of-what-could-have-been/cover.jpg)
+
 Gardener cultivating alternate realities, where different choices bloomed into being.
 
 ---

@@ -1,5 +1,7 @@
 # A Library for Forgotten Names
 
+![A Library for Forgotten Names Cover](/books/a-library-for-forgotten-names/cover.jpg)
+
 Librarian cataloging identities of people erased from history, restoring their stories.
 
 ---

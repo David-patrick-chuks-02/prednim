@@ -1,5 +1,7 @@
 # The Botanist of Forgotten Promises
 
+![The Botanist of Forgotten Promises Cover](/books/the-botanist-of-forgotten-promises/cover.jpg)
+
 Garden scientist cultivating redemption through growth, nurturing broken things back to life.
 
 ---

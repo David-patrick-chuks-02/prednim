@@ -1,5 +1,7 @@
 # A Season of Unclaimed Stars
 
+![A Season of Unclaimed Stars Cover](/books/a-season-of-unclaimed-stars/cover.jpg)
+
 Astronomer inheriting cosmic mysteries from predecessor, mapping the inheritance of wonder.
 
 ---

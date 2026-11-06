@@ -1,5 +1,7 @@
 # Where the Paper Moons Fall
 
+![Where the Paper Moons Fall Cover](/books/where-the-paper-moons-fall/cover.jpg)
+
 Poet discovering alternate worlds through written words, where reality bends to imagination.
 
 ---

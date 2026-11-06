@@ -1,5 +1,7 @@
 # The Orchard Beneath the Clocktower
 
+![The Orchard Beneath the Clocktower Cover](/books/the-orchard-beneath-the-clocktower/cover.jpg)
+
 An orchard keeper hiding forbidden fruit and time's secrets in a place where past and present collide.
 
 ---

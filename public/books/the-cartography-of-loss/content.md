@@ -1,5 +1,7 @@
 # The Cartography of Loss
 
+![The Cartography of Loss Cover](/books/the-cartography-of-loss/cover.jpg)
+
 Map maker drawing routes through absence, charting where love used to be.
 
 ---

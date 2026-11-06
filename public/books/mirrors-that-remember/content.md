@@ -1,5 +1,7 @@
 # Mirrors That Remember
 
+![Mirrors That Remember Cover](/books/mirrors-that-remember/cover.jpg)
+
 Antique dealer discovering mirrors that reflect lives of previous owners, ghosts of the past.
 
 ---

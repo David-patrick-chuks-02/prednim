@@ -1,5 +1,7 @@
 # The Memory Keeper's Burden
 
+![The Memory Keeper's Burden Cover](/books/the-memory-keeper-s-burden/cover.jpg)
+
 Archivist cursed to remember everything, but powerless to change the past.
 
 ---

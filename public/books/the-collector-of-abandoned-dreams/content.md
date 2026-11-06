@@ -1,5 +1,7 @@
 # The Collector of Abandoned Dreams
 
+![The Collector of Abandoned Dreams Cover](/books/the-collector-of-abandoned-dreams/cover.jpg)
+
 Dream merchant gathering aspirations left behind, giving them new life through strangers.
 
 ---

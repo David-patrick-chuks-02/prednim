@@ -1,5 +1,7 @@
 # The Map of Things We Buried
 
+![The Map of Things We Buried Cover](/books/the-map-of-things-we-buried/cover.jpg)
+
 Archaeologist uncovering what families deliberately hid, mapping the geography of shared secrets.
 
 ---

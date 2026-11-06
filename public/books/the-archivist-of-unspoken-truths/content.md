@@ -1,5 +1,7 @@
 # The Archivist of Unspoken Truths
 
+![The Archivist of Unspoken Truths Cover](/books/the-archivist-of-unspoken-truths/cover.jpg)
+
 Historian documenting secrets people take to their graves, preserving what the world forgot.
 
 ---

@@ -1,5 +1,7 @@
 # The Cartographer of Borrowed Rain
 
+![The Cartographer of Borrowed Rain Cover](/books/the-cartographer-of-borrowed-rain/cover.jpg)
+
 An explorer mapping cities through memory and lost love, revealing secrets hidden in forgotten places.
 
 ---

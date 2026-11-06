@@ -1,5 +1,7 @@
 # A House Built from Letters
 
+![A House Built from Letters Cover](/books/a-house-built-from-letters/cover.jpg)
+
 Architect constructing dwellings from love letters, each room a different kind of goodbye.
 
 ---
