@@ -60,116 +60,95 @@ export default function BookPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-card/50 to-background">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-card/80 backdrop-blur border-b border-line/50">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <div className="sticky top-0 z-40 bg-card/80 backdrop-blur border-b border-line/30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link
             href="/dashboard"
             className="flex items-center gap-2 text-accent hover:text-accent/80 transition"
           >
-            <ArrowLeft size={18} />
-            <span className="text-sm font-medium">Dashboard</span>
+            <ArrowLeft size={20} />
+            <span className="text-sm font-medium">Back</span>
           </Link>
           <button
             onClick={handleDownload}
             disabled={downloading}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-on-accent font-semibold hover:bg-accent/90 transition disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-accent text-on-accent font-semibold hover:bg-accent/90 transition disabled:opacity-50"
           >
-            <Download size={18} />
-            {downloading ? 'Downloading...' : 'Download PDF'}
+            <Download size={20} />
+            {downloading ? 'Downloading...' : 'Download'}
           </button>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {/* Book Cover */}
-          <div className="md:col-span-1">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          {/* Book Cover - Left */}
+          <div className="lg:sticky lg:top-24">
             {book.coverUrl && (
-              <div className="sticky top-24">
-                <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-lg border border-line/30">
-                  <Image
-                    src={book.coverUrl}
-                    alt={book.title}
-                    fill
-                    className="object-cover"
-                    priority
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                </div>
-                <button
-                  onClick={handleDownload}
-                  disabled={downloading}
-                  className="w-full mt-4 px-4 py-3 rounded-lg bg-accent text-on-accent font-semibold hover:bg-accent/90 transition disabled:opacity-50 flex items-center justify-center gap-2"
-                >
-                  <Download size={18} />
-                  {downloading ? 'Downloading...' : 'Download'}
-                </button>
+              <div className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-2xl border border-line/20">
+                <Image
+                  src={book.coverUrl}
+                  alt={book.title}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
               </div>
             )}
           </div>
 
-          {/* Book Info */}
-          <div className="md:col-span-2 space-y-8">
-            {/* Title & Meta */}
+          {/* Book Info - Right */}
+          <div className="space-y-10">
+            {/* Title */}
             <div>
-              <h1 className="text-4xl font-bold text-ink mb-4">{book.title}</h1>
-              <div className="flex flex-wrap gap-4 text-sm text-muted">
-                <span>📖 {book.chapters} Chapters</span>
-                <span>📄 {book.pages} Pages</span>
-                <span className="text-accent">⭐ Exclusive Premium Content</span>
+              <h1 className="text-5xl font-bold text-ink mb-3">{book.title}</h1>
+              <p className="text-accent font-semibold text-sm">⭐ Exclusive Premium Edition</p>
+            </div>
+
+            {/* Description - Main Focus */}
+            <div className="space-y-6 border-t border-b border-line/30 py-8">
+              <div>
+                <h2 className="text-xl font-semibold text-ink mb-4">The Story</h2>
+                <p className="text-muted leading-relaxed text-base">
+                  {book.description}
+                </p>
+              </div>
+
+              {/* Book Stats - Minimal */}
+              <div className="flex gap-8 pt-4">
+                <div>
+                  <p className="text-xs font-semibold text-muted/70 mb-1">Pages</p>
+                  <p className="text-2xl font-bold text-ink">{book.pages}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-muted/70 mb-1">Publisher</p>
+                  <p className="text-lg font-semibold text-ink">Prednim</p>
+                </div>
               </div>
             </div>
 
-            {/* About Section */}
-            <div className="space-y-4 border-t border-line/30 pt-8">
-              <h2 className="text-2xl font-bold text-ink">About This Book</h2>
-              <p className="text-muted leading-relaxed text-lg">
-                {book.description}
-              </p>
-            </div>
-
-            {/* Details */}
-            <div className="grid grid-cols-2 gap-6 bg-card/50 rounded-lg p-6 border border-line/30">
-              <div>
-                <h3 className="text-sm font-semibold text-muted mb-2">Format</h3>
-                <p className="text-ink">PDF</p>
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-muted mb-2">Publisher</h3>
-                <p className="text-ink">Prednim © 2026</p>
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-muted mb-2">Chapters</h3>
-                <p className="text-ink">{book.chapters}</p>
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-muted mb-2">Pages</h3>
-                <p className="text-ink">{book.pages}</p>
-              </div>
-            </div>
-
-            {/* Download CTA */}
-            <div className="bg-gradient-to-r from-accent/10 to-accent/5 rounded-lg p-8 border border-accent/20">
-              <h3 className="text-xl font-bold text-ink mb-2">Ready to Read?</h3>
-              <p className="text-muted mb-6">
-                Click the button below to download your copy and start reading instantly.
-              </p>
+            {/* Download CTA - Single Button */}
+            <div className="space-y-4 pt-6">
               <button
                 onClick={handleDownload}
                 disabled={downloading}
-                className="px-6 py-3 rounded-lg bg-accent text-on-accent font-semibold hover:bg-accent/90 transition disabled:opacity-50 flex items-center gap-2"
+                className="w-full px-8 py-4 rounded-xl bg-accent text-on-accent font-semibold hover:bg-accent/90 transition disabled:opacity-50 flex items-center justify-center gap-3 text-lg"
               >
-                <Download size={18} />
-                {downloading ? 'Downloading...' : 'Download PDF Now'}
+                <Download size={24} />
+                {downloading ? 'Downloading...' : 'Download PDF'}
               </button>
+              <p className="text-xs text-muted text-center">
+                High-quality PDF • {book.pages} pages • Ready to read offline
+              </p>
             </div>
 
-            {/* Footer Note */}
-            <p className="text-xs text-muted text-center pt-8 border-t border-line/30">
-              This is exclusive premium content for Prednim members only. © 2026 Prednim. All rights reserved.
+            {/* Footer */}
+            <p className="text-xs text-muted/60 pt-8">
+              Exclusive premium content for Prednim members. © 2026 Prednim.
             </p>
           </div>
         </div>
