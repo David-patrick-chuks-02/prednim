@@ -73,7 +73,7 @@ export function PremiumBookReaderV2({ book, onClose }: PremiumBookReaderProps) {
           {mode === "read" ? (
             <div className="p-6 sm:p-8 max-w-2xl mx-auto">
               <MarkdownReader
-                filePath={`${book.pdfUrl.split(".")[0]}/content.md`}
+                filePath={`${book.pdfUrl.substring(0, book.pdfUrl.lastIndexOf("/"))}/content.md`}
                 title={book.title}
               />
             </div>
