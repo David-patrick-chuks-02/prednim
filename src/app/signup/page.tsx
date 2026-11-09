@@ -33,10 +33,10 @@ export default function SignUpPage() {
 
     try {
       setSuccess(true);
-      const user = await signUp(email, password, name);
+      await signUp(email, password, name);
 
-      if (referralCode && user) {
-        await trackReferral(user.id, email, referralCode);
+      if (referralCode) {
+        await trackReferral(email, referralCode);
       }
 
       setTimeout(() => router.push("/dashboard"), 1000);
@@ -48,14 +48,13 @@ export default function SignUpPage() {
     }
   };
 
-  const trackReferral = async (userId: string, userEmail: string, code: string) => {
+  const trackReferral = async (userEmail: string, code: string) => {
     try {
       await fetch("/api/partners/track-referral", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           referral_code: code,
-          referred_user_id: userId,
           referred_email: userEmail,
         }),
       });

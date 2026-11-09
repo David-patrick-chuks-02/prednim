@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const cookieStore = await cookies();
-    const { referral_code, referred_user_id, referred_email } = await request.json();
+    const { referral_code, referred_email } = await request.json();
 
     if (!referral_code || !referred_email) {
       return NextResponse.json(
@@ -65,7 +65,6 @@ export async function POST(request: NextRequest) {
       .from("referrals")
       .insert({
         partner_id: partner.id,
-        referred_user_id,
         referred_email,
         status: "pending",
       });
