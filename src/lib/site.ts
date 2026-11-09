@@ -26,6 +26,7 @@ export const FOOTER_COLUMNS = [
     links: [
       { label: "FAQ", href: "/faq" },
       { label: "Help centre", href: "/help" },
+      { label: "Refund Policy", href: "/refund-policy" },
       { label: "Account settings", href: "/account" },
       { label: "Cancel membership", href: "/cancel" },
     ],

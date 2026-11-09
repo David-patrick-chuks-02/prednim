@@ -90,6 +90,9 @@ export default function AccountPage() {
                 <Link href="/terms" className="block text-accent text-sm hover:text-accent/80 transition">
                   Terms of Service
                 </Link>
+                <Link href="/refund-policy" className="block text-accent text-sm hover:text-accent/80 transition">
+                  Refund Policy
+                </Link>
               </div>
             </div>
           </div>
