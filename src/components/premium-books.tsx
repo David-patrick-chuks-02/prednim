@@ -13,10 +13,22 @@ export function PremiumBooks({ userId }: PremiumBooksProps) {
   const [books, setBooks] = useState<PremiumBook[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasSubscription, setHasSubscription] = useState(false);
 
   useEffect(() => {
-    const fetchBooks = async () => {
+    const fetchData = async () => {
       try {
+        // Check user subscription
+        if (userId) {
+          const subResponse = await fetch("/api/admin/create-subscription");
+          const subData = await subResponse.json();
+          const userSub = subData.users?.find((u: any) => u.id === userId);
+          const isActive = userSub?.subscription?.status === "active" &&
+                          userSub?.subscription?.plan_type !== "free";
+          setHasSubscription(isActive);
+        }
+
+        // Fetch books
         const response = await fetch("/api/books/premium", {
           cache: "force-cache",
           headers: { "Accept": "application/json" }
@@ -38,8 +50,8 @@ export function PremiumBooks({ userId }: PremiumBooksProps) {
       }
     };
 
-    fetchBooks();
-  }, []);
+    fetchData();
+  }, [userId]);
 
   if (loading) {
     return (
@@ -57,43 +69,48 @@ export function PremiumBooks({ userId }: PremiumBooksProps) {
     );
   }
 
-  if (error) {
-    const isSubscriptionError = error.includes("No active subscription");
-
+  if (!loading && !hasSubscription) {
     return (
-      <div className={`rounded-lg border p-8 text-center ${
-        isSubscriptionError
-          ? "border-accent/20 bg-accent/5"
-          : "border-red-500/20 bg-red-500/5"
-      }`}>
+      <div className="rounded-lg border border-accent/20 bg-accent/5 p-8 text-center">
         <h3 className="text-2xl font-semibold text-ink mb-2">
-          {isSubscriptionError ? "📚 Unlock Premium Library" : "❌ Unable to Load"}
+          📚 Unlock Premium Library
         </h3>
-        <p className={`mb-8 max-w-md mx-auto text-lg ${
-          isSubscriptionError ? "text-muted" : "text-red-600"
-        }`}>
-          {isSubscriptionError
-            ? "Discover our exclusive collection of premium books. Choose a plan that works for you."
-            : error}
+        <p className="mb-8 max-w-md mx-auto text-lg text-muted">
+          Discover our exclusive collection of premium books. Choose a plan that works for you.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/pricing"
-            className={`px-8 py-3 rounded-lg font-semibold transition ${
-              isSubscriptionError
-                ? "bg-accent text-on-accent hover:bg-accent/90"
-                : "bg-red-600 text-white hover:bg-red-700"
-            }`}
+            className="px-8 py-3 rounded-lg bg-accent text-on-accent font-semibold hover:bg-accent/90 transition"
           >
-            {isSubscriptionError ? "View Plans" : "Try Again"}
+            View Plans
           </Link>
           <Link
-            href={isSubscriptionError ? "/how-it-works" : "/dashboard"}
+            href="/how-it-works"
             className="px-8 py-3 rounded-lg border border-line text-accent font-semibold hover:bg-card/50 transition"
           >
-            {isSubscriptionError ? "Learn More" : "Go Back"}
+            Learn More
           </Link>
         </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-lg border border-red-500/20 bg-red-500/5 p-8 text-center">
+        <h3 className="text-2xl font-semibold text-ink mb-2">
+          ❌ Unable to Load
+        </h3>
+        <p className="mb-8 max-w-md mx-auto text-lg text-red-600">
+          {error}
+        </p>
+        <Link
+          href="/dashboard"
+          className="inline-block px-8 py-3 rounded-lg border border-line text-accent font-semibold hover:bg-card/50 transition"
+        >
+          Go Back
+        </Link>
       </div>
     );
   }
