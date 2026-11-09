@@ -22,11 +22,12 @@ export function PremiumBooks({ userId }: PremiumBooksProps) {
           headers: { "Accept": "application/json" }
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
-          throw new Error("Failed to fetch premium books");
+          throw new Error(data.error || "Failed to fetch premium books");
         }
 
-        const data = await response.json();
         setBooks(data.books);
       } catch (err) {
         setError(
