@@ -37,10 +37,11 @@ const STATUS_COLORS = {
 export default function AdminPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"users" | "refunds" | "partners">("users");
+  const [activeTab, setActiveTab] = useState<"users" | "refunds" | "partners" | "messages">("users");
   const [users, setUsers] = useState<User[]>([]);
   const [refunds, setRefunds] = useState<any[]>([]);
   const [partners, setPartners] = useState<any[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editPlan, setEditPlan] = useState<string>("");
@@ -57,6 +58,7 @@ export default function AdminPage() {
 
     fetchUsers();
     fetchPartners();
+    fetchMessages();
   }, [user, loading, router]);
 
   const fetchUsers = async () => {
@@ -97,6 +99,20 @@ export default function AdminPage() {
       setPartners(data.applications || []);
     } catch (error) {
       console.error("Partner fetch error:", error);
+    }
+  };
+
+  const fetchMessages = async () => {
+    try {
+      const response = await fetch("/api/contact", {
+        method: "GET",
+        headers: { "Authorization": "Bearer admin" },
+      });
+      if (!response.ok) throw new Error("Failed to fetch messages");
+      const data = await response.json();
+      setMessages(data.submissions || []);
+    } catch (error) {
+      console.error("Messages fetch error:", error);
     }
   };
 
@@ -288,6 +304,16 @@ export default function AdminPage() {
               }`}
             >
               Partners
+            </button>
+            <button
+              onClick={() => setActiveTab("messages")}
+              className={`px-4 py-3 font-semibold transition ${
+                activeTab === "messages"
+                  ? "text-accent border-b-2 border-accent"
+                  : "text-muted hover:text-ink"
+              }`}
+            >
+              Messages {messages.length > 0 && `(${messages.length})`}
             </button>
           </div>
 
@@ -503,6 +529,60 @@ export default function AdminPage() {
                         <tr>
                           <td colSpan={5} className="px-6 py-12 text-center text-muted">
                             No partner applications
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Messages Section */}
+          {activeTab === "messages" && (
+            <>
+              <div className="rounded-xl border border-line overflow-hidden bg-card/50 backdrop-blur">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="border-b border-line bg-surface/50">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Name</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Email</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Subject</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Message</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Status</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-line/30">
+                      {messages && messages.length > 0 ? (
+                        messages.map((msg: any) => (
+                          <tr key={msg.id} className="hover:bg-surface/30 transition">
+                            <td className="px-6 py-4 text-sm text-ink font-medium">{msg.name}</td>
+                            <td className="px-6 py-4 text-sm text-muted">{msg.email}</td>
+                            <td className="px-6 py-4 text-sm text-ink">{msg.subject}</td>
+                            <td className="px-6 py-4 text-sm text-muted max-w-md truncate">{msg.message}</td>
+                            <td className="px-6 py-4 text-sm">
+                              <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
+                                msg.status === 'replied'
+                                  ? 'bg-green-500/10 text-green-600'
+                                  : msg.status === 'read'
+                                  ? 'bg-blue-500/10 text-blue-600'
+                                  : 'bg-yellow-500/10 text-yellow-600'
+                              }`}>
+                                {msg.status.charAt(0).toUpperCase() + msg.status.slice(1)}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 text-sm text-muted">
+                              {new Date(msg.created_at).toLocaleDateString()}
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={6} className="px-6 py-12 text-center text-muted">
+                            No messages yet
                           </td>
                         </tr>
                       )}
