@@ -5,15 +5,22 @@ import { NextRequest, NextResponse } from "next/server";
 export async function getAuthenticatedUser(request: NextRequest) {
   try {
     const cookieStore = await cookies();
+    const allCookies = cookieStore.getAll();
+    console.log(`[getAuthenticatedUser] Total cookies: ${allCookies.length}`);
+    console.log(`[getAuthenticatedUser] Cookie names: ${allCookies.map(c => c.name).join(", ")}`);
+
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_ANON_KEY!,
       {
         cookies: {
           getAll() {
-            return cookieStore.getAll();
+            const all = cookieStore.getAll();
+            console.log(`[cookies.getAll] Returning ${all.length} cookies`);
+            return all;
           },
           setAll(cookiesToSet) {
+            console.log(`[cookies.setAll] Setting ${cookiesToSet.length} cookies`);
             cookiesToSet.forEach(({ name, value, options }) => {
               cookieStore.set(name, value, options);
             });
@@ -22,13 +29,26 @@ export async function getAuthenticatedUser(request: NextRequest) {
       }
     );
 
+    console.log("[getAuthenticatedUser] Calling supabase.auth.getUser()");
     const {
       data: { user },
+      error,
     } = await supabase.auth.getUser();
+
+    if (error) {
+      console.error("[getAuthenticatedUser] Error from getUser:", error);
+      return null;
+    }
+
+    if (user) {
+      console.log(`[getAuthenticatedUser] User found: ${user.email}`);
+    } else {
+      console.log("[getAuthenticatedUser] No user found");
+    }
 
     return user;
   } catch (error) {
-    console.error("Auth error:", error);
+    console.error("[getAuthenticatedUser] Exception:", error);
     return null;
   }
 }
