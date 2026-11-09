@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/auth-context";
 import { SiteHeader } from "@/components/site-header";
@@ -16,6 +16,8 @@ export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const referralCode = searchParams.get("ref");
   const { signUp } = useAuth();
 
   const isValidEmail = email.includes("@") && email.includes(".");
@@ -31,13 +33,34 @@ export default function SignUpPage() {
 
     try {
       setSuccess(true);
-      await signUp(email, password, name);
+      const user = await signUp(email, password, name);
+
+      if (referralCode && user) {
+        await trackReferral(user.id, email, referralCode);
+      }
+
       setTimeout(() => router.push("/dashboard"), 1000);
     } catch (err: any) {
       setSuccess(false);
       setError(err.message || "Failed to sign up. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const trackReferral = async (userId: string, userEmail: string, code: string) => {
+    try {
+      await fetch("/api/partners/track-referral", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          referral_code: code,
+          referred_user_id: userId,
+          referred_email: userEmail,
+        }),
+      });
+    } catch (err) {
+      console.error("Failed to track referral:", err);
     }
   };
 

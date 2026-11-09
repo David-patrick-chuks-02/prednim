@@ -90,7 +90,7 @@ async function handlePaymentSucceeded(event: any, supabase: any) {
   console.log(`[Bach] Processing payment for user: ${userId}`);
 
   // Create or update subscription in database
-  const { error } = await supabase.from("subscriptions").upsert(
+  const { error: subscriptionError } = await supabase.from("subscriptions").upsert(
     {
       user_id: userId,
       plan_type: paymentIntent.plan_type || "monthly",
@@ -102,12 +102,82 @@ async function handlePaymentSucceeded(event: any, supabase: any) {
     { onConflict: "user_id" }
   );
 
-  if (error) {
-    console.error(`[Bach] Failed to update subscription for user ${userId}:`, error);
-    throw error;
+  if (subscriptionError) {
+    console.error(`[Bach] Failed to update subscription for user ${userId}:`, subscriptionError);
+    throw subscriptionError;
   }
 
   console.log(`[Bach] Payment succeeded and subscription created for user: ${userId}`);
+
+  // Handle partner referral and commission
+  await handleReferralCommission(userId, paymentIntent, supabase);
+}
+
+async function handleReferralCommission(userId: string, paymentIntent: any, supabase: any) {
+  try {
+    // Find referral for this user
+    const { data: referral, error: referralError } = await supabase
+      .from("referrals")
+      .select("id, partner_id, status")
+      .eq("referred_user_id", userId)
+      .single();
+
+    if (referralError || !referral) {
+      console.log(`[Partners] No referral found for user ${userId}`);
+      return;
+    }
+
+    if (referral.status === "active") {
+      console.log(`[Partners] Referral already active for user ${userId}`);
+      return;
+    }
+
+    // Update referral status to active
+    const { error: updateError } = await supabase
+      .from("referrals")
+      .update({ status: "active" })
+      .eq("id", referral.id);
+
+    if (updateError) {
+      console.error(`[Partners] Failed to update referral status:`, updateError);
+      return;
+    }
+
+    // Get partner commission rate
+    const { data: partner, error: partnerError } = await supabase
+      .from("partners")
+      .select("commission_rate")
+      .eq("id", referral.partner_id)
+      .single();
+
+    if (partnerError || !partner) {
+      console.error(`[Partners] Failed to find partner:`, partnerError);
+      return;
+    }
+
+    // Calculate commission (10% of subscription price)
+    const subscriptionPrice = paymentIntent.amount ? paymentIntent.amount / 100 : 0;
+    const commissionAmount = subscriptionPrice * (partner.commission_rate / 100);
+
+    // Create commission record
+    const { error: commissionError } = await supabase
+      .from("partner_commissions")
+      .insert({
+        partner_id: referral.partner_id,
+        referral_id: referral.id,
+        commission_amount: commissionAmount,
+        payment_status: "pending",
+      });
+
+    if (commissionError) {
+      console.error(`[Partners] Failed to create commission:`, commissionError);
+      return;
+    }
+
+    console.log(`[Partners] Commission created for partner: $${commissionAmount.toFixed(2)}`);
+  } catch (error) {
+    console.error(`[Partners] Error handling referral commission:`, error);
+  }
 }
 
 async function handlePaymentFailed(event: any, supabase: any) {
