@@ -108,7 +108,12 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: usersError.message }, { status: 500 });
     }
 
-    const usersList = data?.users || [];
+    const usersList = Array.isArray(data?.users) ? data.users : [];
+
+    if (!Array.isArray(usersList)) {
+      console.error("usersList is not an array:", typeof usersList, usersList);
+      return NextResponse.json({ error: "Failed to parse users list" }, { status: 500 });
+    }
 
     // Get all subscriptions
     const { data: subscriptionsData, error: subsError } = await supabase
@@ -116,14 +121,15 @@ export async function GET(request: NextRequest) {
       .select("*");
 
     if (subsError) {
+      console.error("Subscriptions query error:", subsError);
       return NextResponse.json({ error: subsError.message }, { status: 500 });
     }
 
-    const subscriptions = subscriptionsData || [];
+    const subscriptions = Array.isArray(subscriptionsData) ? subscriptionsData : [];
 
     // Combine users with their subscriptions
     const combinedData = usersList.map((user: any) => {
-      const subscription = subscriptions.find((sub: any) => sub.user_id === user.id);
+      const subscription = Array.isArray(subscriptions) ? subscriptions.find((sub: any) => sub.user_id === user.id) : null;
       return {
         id: user.id,
         email: user.email,
