@@ -33,14 +33,32 @@ export async function getAuthenticatedUser(request: NextRequest) {
   }
 }
 
+export function getAdminEmails(): string[] {
+  const adminEmailsStr =
+    process.env.NEXT_PUBLIC_ADMIN_EMAILS ||
+    process.env.ADMIN_EMAILS ||
+    "";
+
+  return adminEmailsStr
+    .split(",")
+    .map((email) => email.trim().toLowerCase())
+    .filter((email) => email.length > 0);
+}
+
 export async function isAdmin(request: NextRequest): Promise<boolean> {
   const user = await getAuthenticatedUser(request);
-  if (!user) return false;
+  if (!user?.email) return false;
 
-  // Check if user is admin using environment variable
-  const adminEmailsStr = process.env.NEXT_PUBLIC_ADMIN_EMAILS || process.env.ADMIN_EMAILS || "";
-  const adminEmails = adminEmailsStr.split(",").map((email) => email.trim().toLowerCase());
-  return adminEmails.includes((user.email || "").toLowerCase());
+  const adminEmails = getAdminEmails();
+  const userEmail = user.email.toLowerCase();
+
+  const isAdminUser = adminEmails.includes(userEmail);
+
+  if (!isAdminUser) {
+    console.warn(`Admin check failed for ${userEmail}. Admin emails: ${adminEmails.join(", ")}`);
+  }
+
+  return isAdminUser;
 }
 
 export async function requireAuth(request: NextRequest) {
@@ -54,12 +72,15 @@ export async function requireAuth(request: NextRequest) {
 export async function requireAdmin(request: NextRequest) {
   const user = await getAuthenticatedUser(request);
   if (!user) {
+    console.error("No authenticated user for admin check");
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const adminEmailsStr = process.env.NEXT_PUBLIC_ADMIN_EMAILS || process.env.ADMIN_EMAILS || "";
-  const adminEmails = adminEmailsStr.split(",").map((email) => email.trim().toLowerCase());
-  if (!adminEmails.includes((user.email || "").toLowerCase())) {
+  const adminEmails = getAdminEmails();
+  const userEmail = (user.email || "").toLowerCase();
+
+  if (!adminEmails.includes(userEmail)) {
+    console.error(`Admin access denied for ${userEmail}. Admin emails configured: ${adminEmails.length}`);
     return NextResponse.json({ error: "Forbidden - Admin access required" }, { status: 403 });
   }
 
