@@ -1,0 +1,36 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "nodeVersion": "20.x",
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "@next_public_supabase_url",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@next_public_supabase_anon_key",
+    "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_role_key",
+    "NEXT_PUBLIC_ADMIN_EMAILS": "@next_public_admin_emails"
+  },
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "destination": "/:path*"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/refund-policy",
+      "destination": "/refund-policy/",
+      "permanent": false
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=3600"
+        }
+      ]
+    }
+  ]
+}
