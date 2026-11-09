@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { requireAuth } from "@/lib/auth-middleware";
+import { requireAuth, requireAdmin } from "@/lib/auth-middleware";
 
 export async function POST(request: NextRequest) {
   // Verify user is authenticated
