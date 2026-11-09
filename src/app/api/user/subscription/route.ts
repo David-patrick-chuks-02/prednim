@@ -9,6 +9,14 @@ export async function GET(request: NextRequest) {
     return user;
   }
 
+  if (!user || !user.id) {
+    console.error("User object missing id:", user);
+    return NextResponse.json({
+      error: "User ID not found",
+      userKeys: user ? Object.keys(user) : null
+    }, { status: 400 });
+  }
+
   try {
     const cookieStore = await cookies();
     const supabase = createServerClient(
@@ -28,28 +36,27 @@ export async function GET(request: NextRequest) {
       }
     );
 
-    console.log("Fetching subscription for user:", user.id);
+    console.log("[Subscription] User ID:", user.id, "Email:", user.email);
 
-    // Get user's subscription with debug
     const { data: subscription, error } = await supabase
       .from("subscriptions")
       .select("*")
       .eq("user_id", user.id)
       .maybeSingle();
 
-    console.log("Subscription result:", { subscription, error });
+    console.log("[Subscription] Query result:", { found: !!subscription, error: error?.message });
 
     if (error) {
-      console.error("Subscription fetch error:", error);
+      console.error("[Subscription] Error:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({
-      subscription: subscription || null,
-      userId: user.id,
+      subscription,
+      debug: { userId: user.id, email: user.email }
     });
   } catch (error) {
-    console.error("User subscription error:", error);
+    console.error("[Subscription] Exception:", error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
