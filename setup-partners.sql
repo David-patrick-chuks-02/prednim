@@ -14,11 +14,12 @@ CREATE TABLE IF NOT EXISTS partner_applications (
   reviewed_at TIMESTAMP WITH TIME ZONE,
   reviewed_by UUID REFERENCES auth.users(id),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-
-  -- Ensure one active application per user at a time
-  UNIQUE NULLS NOT DISTINCT (user_id, status) WHERE status IN ('pending', 'approved')
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Partial unique index to ensure one active application per user
+CREATE UNIQUE INDEX IF NOT EXISTS idx_user_pending_approved ON partner_applications(user_id)
+WHERE status IN ('pending', 'approved');
 
 -- 2. Partners Table (Approved Partners)
 CREATE TABLE IF NOT EXISTS partners (
