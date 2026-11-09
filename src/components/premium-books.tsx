@@ -57,26 +57,40 @@ export function PremiumBooks({ userId }: PremiumBooksProps) {
   }
 
   if (error) {
+    const isSubscriptionError = error.includes("No active subscription");
+
     return (
-      <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-8 text-center">
-        <h3 className="text-xl font-semibold text-ink mb-3">Access Premium Library</h3>
-        <p className="text-muted mb-6 max-w-md mx-auto">
-          {error.includes("No active subscription")
-            ? "Get access to our exclusive collection of premium books with a subscription."
+      <div className={`rounded-lg border p-8 text-center ${
+        isSubscriptionError
+          ? "border-accent/20 bg-accent/5"
+          : "border-red-500/20 bg-red-500/5"
+      }`}>
+        <h3 className="text-2xl font-semibold text-ink mb-2">
+          {isSubscriptionError ? "📚 Unlock Premium Library" : "❌ Unable to Load"}
+        </h3>
+        <p className={`mb-8 max-w-md mx-auto text-lg ${
+          isSubscriptionError ? "text-muted" : "text-red-600"
+        }`}>
+          {isSubscriptionError
+            ? "Discover our exclusive collection of premium books. Choose a plan that works for you."
             : error}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/pricing"
-            className="px-6 py-3 rounded-lg bg-accent text-on-accent font-semibold hover:bg-accent/90 transition"
+            className={`px-8 py-3 rounded-lg font-semibold transition ${
+              isSubscriptionError
+                ? "bg-accent text-on-accent hover:bg-accent/90"
+                : "bg-red-600 text-white hover:bg-red-700"
+            }`}
           >
-            View Plans
+            {isSubscriptionError ? "View Plans" : "Try Again"}
           </Link>
           <Link
-            href="/how-it-works"
-            className="px-6 py-3 rounded-lg border border-line text-accent font-semibold hover:bg-card/50 transition"
+            href={isSubscriptionError ? "/how-it-works" : "/dashboard"}
+            className="px-8 py-3 rounded-lg border border-line text-accent font-semibold hover:bg-card/50 transition"
           >
-            Learn More
+            {isSubscriptionError ? "Learn More" : "Go Back"}
           </Link>
         </div>
       </div>
