@@ -37,6 +37,8 @@ export async function GET(request: NextRequest) {
     );
 
     console.log("[Subscription] User ID:", user.id, "Email:", user.email);
+    console.log("[Subscription] Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
+    console.log("[Subscription] Service Role Key:", process.env.SUPABASE_SERVICE_ROLE_KEY?.substring(0, 20) + "...");
 
     const { data: subscription, error } = await supabase
       .from("subscriptions")
@@ -44,7 +46,7 @@ export async function GET(request: NextRequest) {
       .eq("user_id", user.id)
       .maybeSingle();
 
-    console.log("[Subscription] Query result:", { found: !!subscription, error: error?.message });
+    console.log("[Subscription] Query result:", { found: !!subscription, error: error?.message, subscription });
 
     if (error) {
       console.error("[Subscription] Error:", error);
