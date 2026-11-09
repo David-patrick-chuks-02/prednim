@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/auth-middleware";
 
 export async function GET(request: NextRequest) {
+  // Force schema cache refresh by making fresh Supabase client connection
   const user = await requireAuth(request);
   if (user instanceof NextResponse) {
     return user;
