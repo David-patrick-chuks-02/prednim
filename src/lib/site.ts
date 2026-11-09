@@ -31,4 +31,12 @@ export const FOOTER_COLUMNS = [
       { label: "Cancel membership", href: "/cancel" },
     ],
   },
+  {
+    title: "Partners",
+    links: [
+      { label: "Become a Partner", href: "/partner/apply" },
+      { label: "Partner Dashboard", href: "/partner/dashboard" },
+      { label: "Affiliate Program", href: "/partner/apply" },
+    ],
+  },
 ] as const;
