@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useAuth } from "@/contexts/auth-context";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { Edit2, Save, X, Users, Zap, CheckCircle, AlertCircle } from "lucide-react";
+import { Edit2, Save, X, Users, Zap, CheckCircle, AlertCircle, RefreshCw } from "lucide-react";
 
 interface User {
   id: string;
@@ -47,6 +47,7 @@ export default function AdminPage() {
   const [editStatus, setEditStatus] = useState<string>("");
   const [message, setMessage] = useState<{ type: string; text: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -60,6 +61,7 @@ export default function AdminPage() {
 
   const fetchUsers = async () => {
     try {
+      setIsRefreshing(true);
       const response = await fetch("/api/admin/create-subscription", {
         method: "GET",
       });
@@ -75,6 +77,7 @@ export default function AdminPage() {
 
       const data = await response.json();
       setUsers(data.users || []);
+      setMessage({ type: "success", text: "Data refreshed successfully" });
     } catch (error) {
       setMessage({
         type: "error",
@@ -82,6 +85,7 @@ export default function AdminPage() {
       });
     } finally {
       setIsLoading(false);
+      setIsRefreshing(false);
     }
   };
 
@@ -195,9 +199,19 @@ export default function AdminPage() {
             >
               ← Back to Library
             </Link>
-            <div className="flex flex-col gap-2">
-              <h1 className="font-display text-5xl font-bold text-ink">Admin Control</h1>
-              <p className="text-muted text-lg">Manage users and subscription status across the platform</p>
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col gap-2">
+                <h1 className="font-display text-5xl font-bold text-ink">Admin Control</h1>
+                <p className="text-muted text-lg">Manage users and subscription status across the platform</p>
+              </div>
+              <button
+                onClick={fetchUsers}
+                disabled={isRefreshing}
+                className="mt-2 p-2 rounded-lg bg-accent/10 hover:bg-accent/20 text-accent disabled:opacity-50 disabled:cursor-not-allowed transition"
+                title="Refresh data"
+              >
+                <RefreshCw size={20} className={isRefreshing ? "animate-spin" : ""} />
+              </button>
             </div>
           </div>
 
