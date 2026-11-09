@@ -87,50 +87,30 @@ def get_chapter_title(chapter_num):
 
 def get_chapter_content(chapter_num):
     """Generate filler content for chapters to reach page targets"""
-    base_text = f"""
-The protagonist found themselves contemplating the profound mysteries that lay before them.
-In the depths of their soul, questions swirled like autumn leaves caught in an endless wind.
-Each moment brought new understanding, each silence held its own eloquent truth.
+    paragraphs = [
+        "The protagonist found themselves contemplating the profound mysteries that lay before them. In the depths of their soul, questions swirled like autumn leaves caught in an endless wind. Each moment brought new understanding, each silence held its own eloquent truth.",
 
-The world around them seemed to pulse with hidden meanings, waiting to be discovered by those
-patient enough to listen. Time moved in strange ways here, stretching and compressing according
-to no rhythm that mortal minds could fully comprehend.
+        "The world around them seemed to pulse with hidden meanings, waiting to be discovered by those patient enough to listen. Time moved in strange ways here, stretching and compressing according to no rhythm that mortal minds could fully comprehend.",
 
-There was a certain beauty in the uncertainty, a kind of grace in not knowing what lay ahead.
-The future remained unwritten, full of possibility and potential. Every choice made echoed
-through the corridors of fate, influencing paths yet to be walked.
+        "There was a certain beauty in the uncertainty, a kind of grace in not knowing what lay ahead. The future remained unwritten, full of possibility and potential. Every choice made echoed through the corridors of fate, influencing paths yet to be walked.",
 
-The character reflected on what had brought them to this moment. Years of searching, of questioning,
-of hoping for something more meaningful than the surface world could offer. And now, standing at
-the threshold of revelation, they wondered if they were truly ready for what might come next.
+        "The character reflected on what had brought them to this moment. Years of searching, of questioning, of hoping for something more meaningful than the surface world could offer. And now, standing at the threshold of revelation, they wondered if they were truly ready for what might come next.",
 
-In the quiet moments, when the world slowed down and time seemed to hold its breath,
-there came a sense of profound connection to something larger than themselves. A feeling
-that they were part of something vast and intricate, woven into a tapestry of existence
-that stretched far beyond their understanding.
+        "In the quiet moments, when the world slowed down and time seemed to hold its breath, there came a sense of profound connection to something larger than themselves. A feeling that they were part of something vast and intricate, woven into a tapestry of existence that stretched far beyond their understanding.",
 
-The night air carried whispers of distant places, of untold stories waiting to be heard.
-Each star in the sky represented a different world, a different possibility, a different life
-that might have been lived. The vastness of it all was both terrifying and magnificent.
+        "The night air carried whispers of distant places, of untold stories waiting to be heard. Each star in the sky represented a different world, a different possibility, a different life that might have been lived. The vastness of it all was both terrifying and magnificent.",
 
-As dawn approached, bringing with it the promise of new beginning, the protagonist realized
-that the journey itself had transformed them. They were no longer the person who had started
-out on this path. Something fundamental had shifted within, something that could never be
-reversed or forgotten.
+        "As dawn approached, bringing with it the promise of new beginning, the protagonist realized that the journey itself had transformed them. They were no longer the person who had started out on this path. Something fundamental had shifted within, something that could never be reversed or forgotten.",
 
-The lessons learned in darkness now illuminated the path forward. What had seemed impossible
-suddenly became clear. What had been shrouded in mystery began to reveal itself, layer by layer,
-truth by truth.
+        "The lessons learned in darkness now illuminated the path forward. What had seemed impossible suddenly became clear. What had been shrouded in mystery began to reveal itself, layer by layer, truth by truth.",
 
-And in that moment of understanding, everything changed. The world took on new meaning,
-new purpose, new possibility. The journey was far from over, but the destination had shifted.
-The search had transformed into discovery, questions had become answers, and the long night
-had finally given way to dawn.
-""".strip()
+        "And in that moment of understanding, everything changed. The world took on new meaning, new purpose, new possibility. The journey was far from over, but the destination had shifted. The search had transformed into discovery, questions had become answers, and the long night had finally given way to dawn.",
+    ]
 
-    # Repeat content to fill pages (adjust repetitions based on chapter number)
-    repetitions = 8
-    return (base_text + "\n\n") * repetitions
+    # Repeat paragraphs to fill pages
+    repetitions = 9
+    all_paragraphs = (paragraphs * repetitions)[:repetitions * len(paragraphs)]
+    return all_paragraphs
 
 def clean_markdown(text):
     """Clean markdown formatting from text"""
@@ -182,8 +162,10 @@ def generate_pdf_for_book(book_slug, book_title, target_pages):
         parent=styles['Normal'],
         alignment=TA_JUSTIFY,
         fontSize=11,
-        leading=16,
+        leading=18,
         textColor=colors.HexColor('#1a181c'),
+        spaceAfter=14,
+        firstLineIndent=0.3*inch,
     )
 
     chapter_title_style = ParagraphStyle(
@@ -211,21 +193,51 @@ def generate_pdf_for_book(book_slug, book_title, target_pages):
     # Build story elements
     story = []
 
-    # Add cover image on first page if it exists
+    # Page 1: Cover image
     if cover_path.exists():
         try:
             story.append(RLImage(str(cover_path), width=4*inch, height=5.3*inch))
-            story.append(Spacer(1, 0.5*inch))
             story.append(PageBreak())
         except Exception as e:
             print(f"  Warning: Could not add cover image: {e}")
 
-    # Title page
-    story.append(Spacer(1, 1.5*inch))
-    story.append(Paragraph(book_title, title_page_style))
-    story.append(Paragraph("Premium Edition", styles['Normal']))
+    # Page 2: Title/Copyright page (professional layout)
+    title_only_style = ParagraphStyle(
+        'TitleOnly',
+        parent=styles['Heading1'],
+        alignment=TA_CENTER,
+        fontSize=28,
+        leading=34,
+        fontName='Helvetica-Bold',
+        spaceAfter=0,
+        textColor=colors.HexColor('#1a181c'),
+    )
+
+    copyright_style = ParagraphStyle(
+        'Copyright',
+        parent=styles['Normal'],
+        alignment=TA_CENTER,
+        fontSize=9,
+        leading=13,
+        textColor=colors.HexColor('#666666'),
+        spaceAfter=0,
+    )
+
     story.append(Spacer(1, 2*inch))
-    story.append(Paragraph("Prednim", styles['Italic']))
+    story.append(Paragraph(book_title, title_only_style))
+    story.append(Spacer(1, 0.3*inch))
+    story.append(Paragraph("Premium Edition", ParagraphStyle(
+        'SubtitleSmall',
+        parent=styles['Normal'],
+        alignment=TA_CENTER,
+        fontSize=12,
+        textColor=colors.HexColor('#999999'),
+        spaceAfter=0,
+    )))
+    story.append(Spacer(1, 2.5*inch))
+    story.append(Paragraph("Published by Prednim", copyright_style))
+    story.append(Paragraph("© 2026 Prednim. All rights reserved.", copyright_style))
+    story.append(Paragraph("This is a premium literary edition.", copyright_style))
     story.append(PageBreak())
 
     # Add 31 chapters
@@ -233,11 +245,12 @@ def generate_pdf_for_book(book_slug, book_title, target_pages):
         # Chapter title
         chapter_title = f"Chapter {chapter_num:02d} – {get_chapter_title(chapter_num)}"
         story.append(Paragraph(chapter_title, chapter_title_style))
+        story.append(Spacer(1, 0.2*inch))
 
-        # Chapter content
-        content = get_chapter_content(chapter_num)
-        content_para = Paragraph(content, justified_body)
-        story.append(content_para)
+        # Chapter content - add as separate paragraphs
+        content_paragraphs = get_chapter_content(chapter_num)
+        for para_text in content_paragraphs:
+            story.append(Paragraph(para_text, justified_body))
 
         # Page break between chapters (except after last chapter)
         if chapter_num < 31:
