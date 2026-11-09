@@ -118,8 +118,8 @@ export async function GET(request: NextRequest) {
     }
 
     // Combine users with their subscriptions
-    const combinedData = users.map((user) => {
-      const subscription = subscriptions?.find((sub) => sub.user_id === user.id);
+    const combinedData = users.map((user: any) => {
+      const subscription = subscriptions?.find((sub: any) => sub.user_id === user.id);
       return {
         id: user.id,
         email: user.email,
