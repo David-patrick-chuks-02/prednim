@@ -55,6 +55,12 @@ export function SiteFooter() {
               Terms
             </a>
             <a
+              href="/refund-policy"
+              className="text-[12px] text-muted transition hover:text-accent"
+            >
+              Refund
+            </a>
+            <a
               href="/cookies"
               className="text-[12px] text-muted transition hover:text-accent"
             >
