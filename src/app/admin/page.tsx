@@ -37,7 +37,9 @@ const STATUS_COLORS = {
 export default function AdminPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState<"users" | "refunds">("users");
   const [users, setUsers] = useState<User[]>([]);
+  const [refunds, setRefunds] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editPlan, setEditPlan] = useState<string>("");

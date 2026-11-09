@@ -1,22 +1,56 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/auth-context";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { LogOut } from "lucide-react";
+import { LogOut, Send } from "lucide-react";
 
 export default function AccountPage() {
   const { user, loading, signOut } = useAuth();
   const router = useRouter();
+  const [refundReason, setRefundReason] = useState("");
+  const [message, setMessage] = useState<{ type: string; text: string } | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
       router.push("/login");
     }
   }, [user, loading, router]);
+
+  const handleRefundRequest = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/refund-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: user?.id,
+          email: user?.email,
+          reason: refundReason,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit refund request");
+      }
+
+      setMessage({ type: "success", text: "Refund request submitted! Our team will review it within 3-5 business days." });
+      setRefundReason("");
+    } catch (error) {
+      setMessage({
+        type: "error",
+        text: error instanceof Error ? error.message : "Failed to submit refund request",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -47,6 +81,19 @@ export default function AccountPage() {
             <p className="text-muted mt-2">Manage your account and reading preferences</p>
           </div>
 
+          {/* Alert Message */}
+          {message && (
+            <div
+              className={`mb-8 p-4 rounded-xl ${
+                message.type === "error"
+                  ? "bg-red-500/10 border border-red-500/20 text-red-600"
+                  : "bg-green-500/10 border border-green-500/20 text-green-600"
+              }`}
+            >
+              {message.text}
+            </div>
+          )}
+
           {/* Profile Section */}
           <div className="mb-16">
             <h2 className="font-display text-xl font-bold text-ink mb-6">Profile</h2>
@@ -59,6 +106,50 @@ export default function AccountPage() {
                 <div>
                   <label className="text-xs font-semibold uppercase text-muted/70 tracking-wide">Email</label>
                   <p className="mt-2 text-ink text-lg">{user?.email}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Billing Section */}
+          <div className="mb-16">
+            <h2 className="font-display text-xl font-bold text-ink mb-6">Billing & Refunds</h2>
+            <div className="rounded-lg border border-line/50 bg-card/50 p-8">
+              <div className="space-y-6">
+                <div>
+                  <h3 className="font-semibold text-ink mb-3">Request a Refund</h3>
+                  <p className="text-muted text-sm mb-4">
+                    We offer a 30-day money-back guarantee. If you're not satisfied with your subscription, let us know below and we'll process your refund within 3-5 business days.
+                  </p>
+                  <form onSubmit={handleRefundRequest} className="space-y-4">
+                    <div>
+                      <label className="text-sm font-semibold text-ink mb-2 block">Reason for refund</label>
+                      <textarea
+                        value={refundReason}
+                        onChange={(e) => setRefundReason(e.target.value)}
+                        placeholder="Tell us why you'd like a refund (optional)"
+                        className="w-full px-4 py-3 rounded-lg border border-line bg-background text-ink placeholder-muted focus:outline-none focus:border-accent transition resize-none"
+                        rows={4}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="flex items-center gap-2 px-4 py-3 rounded-lg bg-accent text-on-accent font-semibold hover:bg-accent/90 transition disabled:opacity-50"
+                    >
+                      <Send size={18} />
+                      {isSubmitting ? "Submitting..." : "Submit Refund Request"}
+                    </button>
+                  </form>
+                </div>
+
+                <div className="border-t border-line/30 pt-6">
+                  <Link
+                    href="/refund-policy"
+                    className="text-accent text-sm font-semibold hover:text-accent/80 transition inline-block"
+                  >
+                    View full Refund Policy →
+                  </Link>
                 </div>
               </div>
             </div>
