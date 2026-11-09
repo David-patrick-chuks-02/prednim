@@ -38,11 +38,10 @@ export default function BookPage() {
 
   const checkSubscriptionAccess = async () => {
     try {
-      const response = await fetch('/api/admin/create-subscription');
+      const response = await fetch('/api/user/subscription');
       const data = await response.json();
-      const userSubscription = data.users?.find((u: any) => u.id === user?.id);
-      const hasActiveSubscription = userSubscription?.subscription?.status === 'active' &&
-                                   userSubscription?.subscription?.plan_type !== 'free';
+      const hasActiveSubscription = data.subscription?.status === 'active' &&
+                                   data.subscription?.plan_type !== 'free';
       setHasAccess(hasActiveSubscription);
     } catch (error) {
       console.error('Error checking subscription:', error);

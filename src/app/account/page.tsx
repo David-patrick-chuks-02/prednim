@@ -31,10 +31,9 @@ export default function AccountPage() {
 
   const fetchSubscription = async () => {
     try {
-      const response = await fetch("/api/admin/create-subscription");
+      const response = await fetch("/api/user/subscription");
       const data = await response.json();
-      const userSub = data.users?.find((u: any) => u.id === user?.id);
-      setSubscription(userSub?.subscription || null);
+      setSubscription(data.subscription || null);
     } catch (error) {
       console.error("Error fetching subscription:", error);
     } finally {

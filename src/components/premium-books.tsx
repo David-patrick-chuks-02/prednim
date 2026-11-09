@@ -20,11 +20,10 @@ export function PremiumBooks({ userId }: PremiumBooksProps) {
       try {
         // Check user subscription
         if (userId) {
-          const subResponse = await fetch("/api/admin/create-subscription");
+          const subResponse = await fetch("/api/user/subscription");
           const subData = await subResponse.json();
-          const userSub = subData.users?.find((u: any) => u.id === userId);
-          const isActive = userSub?.subscription?.status === "active" &&
-                          userSub?.subscription?.plan_type !== "free";
+          const isActive = subData.subscription?.status === "active" &&
+                          subData.subscription?.plan_type !== "free";
           setHasSubscription(isActive);
         }
 
