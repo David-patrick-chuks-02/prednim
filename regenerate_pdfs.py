@@ -164,18 +164,18 @@ def generate_pdf_for_book(book_slug, book_title, target_pages):
         fontSize=11,
         leading=18,
         textColor=colors.HexColor('#1a181c'),
-        spaceAfter=14,
-        firstLineIndent=0.3*inch,
+        spaceAfter=16,
     )
 
     chapter_title_style = ParagraphStyle(
         'ChapterTitle',
         parent=styles['Heading1'],
         alignment=TA_CENTER,
-        fontSize=20,
-        leading=24,
+        fontSize=26,
+        leading=32,
         fontName='Helvetica-Bold',
-        spaceAfter=0.3*inch,
+        spaceAfter=0.5*inch,
+        spaceBefore=0.3*inch,
         textColor=colors.HexColor('#1a181c'),
     )
 
@@ -245,7 +245,6 @@ def generate_pdf_for_book(book_slug, book_title, target_pages):
         # Chapter title
         chapter_title = f"Chapter {chapter_num:02d} – {get_chapter_title(chapter_num)}"
         story.append(Paragraph(chapter_title, chapter_title_style))
-        story.append(Spacer(1, 0.2*inch))
 
         # Chapter content - add as separate paragraphs
         content_paragraphs = get_chapter_content(chapter_num)
