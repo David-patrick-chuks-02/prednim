@@ -92,6 +92,7 @@ async function handlePaymentSucceeded(event: any, supabase: any) {
   // Create or update subscription in database
   const { error: subscriptionError } = await supabase.from("subscriptions").upsert(
     {
+      id: Math.floor(Math.random() * 9000000000) + 1000000000,
       user_id: userId,
       plan_type: paymentIntent.plan_type || "monthly",
       price: paymentIntent.amount ? paymentIntent.amount / 100 : 0,

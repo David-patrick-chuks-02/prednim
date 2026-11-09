@@ -45,6 +45,7 @@ export async function POST(request: NextRequest) {
       .from("subscriptions")
       .upsert(
         {
+          id: Math.floor(Math.random() * 9000000000) + 1000000000,
           user_id,
           plan_type,
           status: "active",
