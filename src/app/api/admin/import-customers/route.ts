@@ -1,5 +1,4 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth-middleware";
 
@@ -10,22 +9,9 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
+    const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return cookieStore.getAll();
-          },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, options);
-            });
-          },
-        },
-      }
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
     );
 
     const { csvContent } = await request.json();
@@ -54,11 +40,10 @@ export async function POST(request: NextRequest) {
 
     console.log(`[Import] Found ${allAuthUsers.length} auth users`);
 
-    // Parse CSV
+    // Parse CSV with alternating rows for payment_status
     const lines = csvContent.trim().split("\n");
     const header = lines[0].split(",");
     const emailIdx = header.indexOf("email");
-    const statusIdx = header.indexOf("payment_status");
     const createdAtIdx = header.indexOf("created_at");
     const amountIdx = header.indexOf("total_processed_amounts");
 
@@ -66,18 +51,22 @@ export async function POST(request: NextRequest) {
     const currentDate = new Date();
     let activeCount = 0;
 
-    for (let i = 1; i < lines.length; i++) {
-      const line = lines[i].trim();
-      if (!line) continue;
+    // Skip line 1 (header) and line 2 (payment_status label)
+    // Process every other line starting from line 2 (0-indexed)
+    for (let i = 2; i < lines.length; i += 2) {
+      const dataLine = lines[i]?.trim();
+      const statusLine = lines[i + 1]?.trim();
+
+      if (!dataLine || !statusLine) continue;
 
       try {
-        // Basic CSV parsing (handle quoted fields)
+        // Parse customer data line
         const parts: string[] = [];
         let current = "";
         let inQuotes = false;
 
-        for (let j = 0; j < line.length; j++) {
-          const char = line[j];
+        for (let j = 0; j < dataLine.length; j++) {
+          const char = dataLine[j];
           if (char === '"') {
             inQuotes = !inQuotes;
           } else if (char === "," && !inQuotes) {
@@ -89,8 +78,11 @@ export async function POST(request: NextRequest) {
         }
         parts.push(current.trim());
 
+        // Parse status line (format: ,payment_status_value)
+        const statusParts = statusLine.split(",");
+        const status = statusParts[1]?.trim().toLowerCase() || "";
+
         const email = parts[emailIdx]?.toLowerCase() || "";
-        const status = parts[statusIdx]?.toLowerCase() || "";
         const createdAt = parts[createdAtIdx]?.trim() || "";
         const amountStr = parts[amountIdx]?.trim() || "";
 
@@ -112,6 +104,7 @@ export async function POST(request: NextRequest) {
         if (isActive) activeCount++;
 
         subscriptionsToInsert.push({
+          id: Math.floor(Math.random() * 9000000000) + 1000000000,
           user_id: authUser.id,
           plan_type: "monthly",
           status: isActive ? "active" : "expired",
