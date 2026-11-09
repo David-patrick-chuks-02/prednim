@@ -1,8 +1,15 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/auth-middleware";
 
 export async function POST(request: NextRequest) {
+  // Check if user is admin
+  const adminCheck = await requireAdmin(request);
+  if (adminCheck instanceof NextResponse) {
+    return adminCheck;
+  }
+
   try {
     const cookieStore = await cookies();
 
