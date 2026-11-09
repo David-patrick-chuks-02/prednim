@@ -28,19 +28,25 @@ export async function GET(request: NextRequest) {
       }
     );
 
-    // Get user's subscription
+    console.log("Fetching subscription for user:", user.id);
+
+    // Get user's subscription with debug
     const { data: subscription, error } = await supabase
       .from("subscriptions")
       .select("*")
       .eq("user_id", user.id)
-      .single();
+      .maybeSingle();
 
-    if (error && error.code !== "PGRST116") {
+    console.log("Subscription result:", { subscription, error });
+
+    if (error) {
+      console.error("Subscription fetch error:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({
       subscription: subscription || null,
+      userId: user.id,
     });
   } catch (error) {
     console.error("User subscription error:", error);
