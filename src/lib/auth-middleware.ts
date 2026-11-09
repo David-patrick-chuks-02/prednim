@@ -73,11 +73,14 @@ export async function requireAdmin(request: NextRequest) {
   const user = await getAuthenticatedUser(request);
   if (!user) {
     console.error("No authenticated user for admin check");
+    console.error("Request cookies:", request.cookies.getAll().map(c => c.name).join(", "));
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const adminEmails = getAdminEmails();
   const userEmail = (user.email || "").toLowerCase();
+
+  console.log(`Admin check for ${userEmail}. Configured admins: ${adminEmails.join(", ")}`);
 
   if (!adminEmails.includes(userEmail)) {
     console.error(`Admin access denied for ${userEmail}. Admin emails configured: ${adminEmails.length}`);
