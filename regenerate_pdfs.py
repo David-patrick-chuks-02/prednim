@@ -87,29 +87,22 @@ def get_chapter_title(chapter_num):
 
 def get_chapter_content(chapter_num):
     """Generate filler content for chapters to reach page targets"""
-    paragraphs = [
-        "The protagonist found themselves contemplating the profound mysteries that lay before them. In the depths of their soul, questions swirled like autumn leaves caught in an endless wind. Each moment brought new understanding, each silence held its own eloquent truth.",
+    # Combine into larger paragraph blocks for better flow
+    long_paragraphs = [
+        "The protagonist found themselves contemplating the profound mysteries that lay before them. In the depths of their soul, questions swirled like autumn leaves caught in an endless wind. Each moment brought new understanding, each silence held its own eloquent truth. The world around them seemed to pulse with hidden meanings, waiting to be discovered by those patient enough to listen. Time moved in strange ways here, stretching and compressing according to no rhythm that mortal minds could fully comprehend.",
 
-        "The world around them seemed to pulse with hidden meanings, waiting to be discovered by those patient enough to listen. Time moved in strange ways here, stretching and compressing according to no rhythm that mortal minds could fully comprehend.",
+        "There was a certain beauty in the uncertainty, a kind of grace in not knowing what lay ahead. The future remained unwritten, full of possibility and potential. Every choice made echoed through the corridors of fate, influencing paths yet to be walked. The character reflected on what had brought them to this moment. Years of searching, of questioning, of hoping for something more meaningful than the surface world could offer. And now, standing at the threshold of revelation, they wondered if they were truly ready for what might come next.",
 
-        "There was a certain beauty in the uncertainty, a kind of grace in not knowing what lay ahead. The future remained unwritten, full of possibility and potential. Every choice made echoed through the corridors of fate, influencing paths yet to be walked.",
+        "In the quiet moments, when the world slowed down and time seemed to hold its breath, there came a sense of profound connection to something larger than themselves. A feeling that they were part of something vast and intricate, woven into a tapestry of existence that stretched far beyond their understanding. The night air carried whispers of distant places, of untold stories waiting to be heard. Each star in the sky represented a different world, a different possibility, a different life that might have been lived. The vastness of it all was both terrifying and magnificent.",
 
-        "The character reflected on what had brought them to this moment. Years of searching, of questioning, of hoping for something more meaningful than the surface world could offer. And now, standing at the threshold of revelation, they wondered if they were truly ready for what might come next.",
-
-        "In the quiet moments, when the world slowed down and time seemed to hold its breath, there came a sense of profound connection to something larger than themselves. A feeling that they were part of something vast and intricate, woven into a tapestry of existence that stretched far beyond their understanding.",
-
-        "The night air carried whispers of distant places, of untold stories waiting to be heard. Each star in the sky represented a different world, a different possibility, a different life that might have been lived. The vastness of it all was both terrifying and magnificent.",
-
-        "As dawn approached, bringing with it the promise of new beginning, the protagonist realized that the journey itself had transformed them. They were no longer the person who had started out on this path. Something fundamental had shifted within, something that could never be reversed or forgotten.",
-
-        "The lessons learned in darkness now illuminated the path forward. What had seemed impossible suddenly became clear. What had been shrouded in mystery began to reveal itself, layer by layer, truth by truth.",
+        "As dawn approached, bringing with it the promise of new beginning, the protagonist realized that the journey itself had transformed them. They were no longer the person who had started out on this path. Something fundamental had shifted within, something that could never be reversed or forgotten. The lessons learned in darkness now illuminated the path forward. What had seemed impossible suddenly became clear. What had been shrouded in mystery began to reveal itself, layer by layer, truth by truth.",
 
         "And in that moment of understanding, everything changed. The world took on new meaning, new purpose, new possibility. The journey was far from over, but the destination had shifted. The search had transformed into discovery, questions had become answers, and the long night had finally given way to dawn.",
     ]
 
-    # Repeat paragraphs to fill pages
-    repetitions = 9
-    all_paragraphs = (paragraphs * repetitions)[:repetitions * len(paragraphs)]
+    # Repeat to fill pages
+    repetitions = 6
+    all_paragraphs = (long_paragraphs * repetitions)[:repetitions * len(long_paragraphs)]
     return all_paragraphs
 
 def clean_markdown(text):
