@@ -111,7 +111,7 @@ export async function GET(request: NextRequest) {
     const usersList = data?.users || [];
 
     // Get all subscriptions
-    const { data: subscriptions, error: subsError } = await supabase
+    const { data: subscriptionsData, error: subsError } = await supabase
       .from("subscriptions")
       .select("*");
 
@@ -119,9 +119,11 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: subsError.message }, { status: 500 });
     }
 
+    const subscriptions = subscriptionsData || [];
+
     // Combine users with their subscriptions
     const combinedData = usersList.map((user: any) => {
-      const subscription = subscriptions?.find((sub: any) => sub.user_id === user.id);
+      const subscription = subscriptions.find((sub: any) => sub.user_id === user.id);
       return {
         id: user.id,
         email: user.email,

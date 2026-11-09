@@ -5,10 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Download } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
-import { PREMIUM_BOOKS } from '@/lib/premiumBooks';
+import { PREMIUM_BOOKS, PremiumBook } from '@/lib/premiumBooks';
 
 export default function BookPage() {
-  const [book, setBook] = useState<any>(null);
+  const [book, setBook] = useState<PremiumBook | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [loading, setLoading] = useState(true);
   const router = useRouter();

@@ -278,8 +278,8 @@ export default function AdminPage() {
                             </select>
                           ) : (
                             <div className="flex items-center gap-2">
-                              {StatusIcon && <StatusIcon size={16} className={statusConfig?.text} />}
-                              <span className={`text-xs font-bold capitalize ${statusConfig?.text}`}>
+                              {statusConfig && StatusIcon && <StatusIcon size={16} className={statusConfig.text} />}
+                              <span className={`text-xs font-bold capitalize ${statusConfig?.text || "text-muted"}`}>
                                 {u.subscription?.status || "N/A"}
                               </span>
                             </div>

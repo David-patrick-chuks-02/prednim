@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   // This endpoint is for admins to view refund requests
-  const adminCheck = await requireAuth(request);
+  const adminCheck = await requireAdmin(request);
   if (adminCheck instanceof NextResponse) {
     return adminCheck;
   }

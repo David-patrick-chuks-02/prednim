@@ -82,7 +82,7 @@ async function handlePaymentSucceeded(event: any, supabase: any) {
     throw new Error("Missing paymentIntent in event data");
   }
 
-  const userId = paymentIntent.metadata?.user_id || paymentIntent.customer_email;
+  const userId = paymentIntent.metadata?.user_id;
   if (!userId) {
     throw new Error("Missing user_id in payment metadata");
   }
@@ -113,6 +113,11 @@ async function handlePaymentSucceeded(event: any, supabase: any) {
 async function handlePaymentFailed(event: any, supabase: any) {
   const { data: paymentIntent } = event;
 
+  if (!paymentIntent) {
+    console.error("Missing paymentIntent in payment failed event");
+    return;
+  }
+
   console.log(`Payment failed for customer: ${paymentIntent.customer_id}`);
   // You could send an email notification here
 }
@@ -120,10 +125,15 @@ async function handlePaymentFailed(event: any, supabase: any) {
 async function handleSubscriptionCreated(event: any, supabase: any) {
   const { data: subscription } = event;
 
+  if (!subscription || !subscription.user_id) {
+    console.error("Missing subscription or user_id in subscription created event");
+    return;
+  }
+
   const { error } = await supabase
     .from("subscriptions")
     .update({ status: "active" })
-    .eq("id", subscription.id);
+    .eq("user_id", subscription.user_id);
 
   if (error) {
     console.error("Failed to update subscription status:", error);
@@ -133,10 +143,15 @@ async function handleSubscriptionCreated(event: any, supabase: any) {
 async function handleSubscriptionCancelled(event: any, supabase: any) {
   const { data: subscription } = event;
 
+  if (!subscription || !subscription.user_id) {
+    console.error("Missing subscription or user_id in subscription cancelled event");
+    return;
+  }
+
   const { error } = await supabase
     .from("subscriptions")
     .update({ status: "cancelled", cancelled_at: new Date().toISOString() })
-    .eq("id", subscription.id);
+    .eq("user_id", subscription.user_id);
 
   if (error) {
     console.error("Failed to cancel subscription:", error);
