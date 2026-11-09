@@ -28,14 +28,30 @@ export async function GET(request: NextRequest) {
       }
     );
 
-    // Test 1: Get users
-    const { data: userData, error: userError } = await supabase.auth.admin.listUsers();
+    // Test 1: Get all users with pagination
+    let allUsers: any[] = [];
+    let page = 1;
+    let totalFetched = 0;
 
-    if (userError) {
-      return NextResponse.json({
-        step: "listUsers",
-        error: userError.message
-      }, { status: 500 });
+    while (true) {
+      const { data: userData, error: userError } = await supabase.auth.admin.listUsers({
+        page,
+        perPage: 50,
+      });
+
+      if (userError) {
+        return NextResponse.json({
+          step: "listUsers",
+          error: userError.message
+        }, { status: 500 });
+      }
+
+      const pageUsers = Array.isArray(userData?.users) ? userData.users : [];
+      allUsers = allUsers.concat(pageUsers);
+      totalFetched += pageUsers.length;
+
+      if (pageUsers.length < 50) break;
+      page++;
     }
 
     // Test 2: Get subscriptions
@@ -52,12 +68,8 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      userDataType: typeof userData,
-      userDataKeys: userData ? Object.keys(userData) : [],
-      usersIsArray: Array.isArray(userData?.users),
-      usersCount: userData?.users?.length || 0,
-      subsDataType: typeof subsData,
-      subsIsArray: Array.isArray(subsData),
+      totalUsersCount: allUsers.length,
+      totalPages: Math.ceil(allUsers.length / 50),
       subsCount: subsData?.length || 0,
     });
   } catch (error) {

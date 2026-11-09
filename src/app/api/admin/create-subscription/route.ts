@@ -101,14 +101,31 @@ export async function GET(request: NextRequest) {
       }
     );
 
-    // Get all users from auth
-    const { data, error: usersError } = await supabase.auth.admin.listUsers();
+    // Get all users from auth with pagination (50 users per page)
+    let allUsers: any[] = [];
+    let page = 1;
+    let hasMore = true;
 
-    if (usersError) {
-      return NextResponse.json({ error: usersError.message }, { status: 500 });
+    while (hasMore) {
+      const { data, error: usersError } = await supabase.auth.admin.listUsers({
+        page,
+        perPage: 50,
+      });
+
+      if (usersError) {
+        console.error(`Error fetching users page ${page}:`, usersError);
+        return NextResponse.json({ error: usersError.message }, { status: 500 });
+      }
+
+      const pageUsers = Array.isArray(data?.users) ? data.users : [];
+      allUsers = allUsers.concat(pageUsers);
+
+      // If we got fewer than 50 users, there are no more pages
+      hasMore = pageUsers.length === 50;
+      page++;
     }
 
-    const usersList = Array.isArray(data?.users) ? data.users : [];
+    const usersList = allUsers;
 
     if (!Array.isArray(usersList)) {
       console.error("usersList is not an array:", typeof usersList, usersList);
