@@ -33,6 +33,22 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // Check if user is admin
+    const adminEmailsStr = process.env.NEXT_PUBLIC_ADMIN_EMAILS || process.env.ADMIN_EMAILS || "";
+    const adminEmails = adminEmailsStr.split(",").map((email) => email.trim().toLowerCase());
+    const isAdmin = adminEmails.includes((user.email || "").toLowerCase());
+
+    // If admin, skip subscription check
+    if (isAdmin) {
+      return NextResponse.json({
+        books: PREMIUM_BOOKS,
+        subscription: {
+          plan: "admin",
+          status: "active",
+        },
+      });
+    }
+
     // Check if user has active subscription
     const { data: subscription, error: subError } = await supabase
       .from("subscriptions")
