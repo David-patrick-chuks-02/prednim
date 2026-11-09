@@ -14,12 +14,33 @@ export default function AccountPage() {
   const [refundReason, setRefundReason] = useState("");
   const [message, setMessage] = useState<{ type: string; text: string } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [subscription, setSubscription] = useState<any>(null);
+  const [subscriptionLoading, setSubscriptionLoading] = useState(true);
 
   useEffect(() => {
     if (!loading && !user) {
       router.push("/login");
     }
   }, [user, loading, router]);
+
+  useEffect(() => {
+    if (user) {
+      fetchSubscription();
+    }
+  }, [user]);
+
+  const fetchSubscription = async () => {
+    try {
+      const response = await fetch("/api/admin/create-subscription");
+      const data = await response.json();
+      const userSub = data.users?.find((u: any) => u.id === user?.id);
+      setSubscription(userSub?.subscription || null);
+    } catch (error) {
+      console.error("Error fetching subscription:", error);
+    } finally {
+      setSubscriptionLoading(false);
+    }
+  };
 
   const handleRefundRequest = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,6 +129,62 @@ export default function AccountPage() {
                   <p className="mt-2 text-ink text-lg">{user?.email}</p>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Subscription Status Section */}
+          <div className="mb-16">
+            <h2 className="font-display text-xl font-bold text-ink mb-6">Subscription Status</h2>
+            <div className="rounded-lg border border-line/50 bg-card/50 p-8">
+              {subscriptionLoading ? (
+                <p className="text-muted">Loading subscription information...</p>
+              ) : subscription ? (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="text-xs font-semibold uppercase text-muted/70 tracking-wide">Plan</label>
+                      <p className="mt-2 text-ink text-lg capitalize font-semibold">
+                        {subscription.plan_type === 'monthly' ? 'Monthly Plan' :
+                         subscription.plan_type === 'sixmonth' ? '6-Month Plan' :
+                         subscription.plan_type === 'annual' ? 'Annual Plan' : 'Free Plan'}
+                      </p>
+                    </div>
+                    <div className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                      subscription.status === 'active'
+                        ? 'bg-green-500/10 text-green-600'
+                        : 'bg-red-500/10 text-red-600'
+                    }`}>
+                      {subscription.status === 'active' ? '✓ Active' : 'Inactive'}
+                    </div>
+                  </div>
+                  {subscription.current_period_end && subscription.status === 'active' && (
+                    <div>
+                      <label className="text-xs font-semibold uppercase text-muted/70 tracking-wide">Expires</label>
+                      <p className="mt-2 text-ink text-lg">
+                        {new Date(subscription.current_period_end).toLocaleDateString()}
+                      </p>
+                    </div>
+                  )}
+                  {subscription.plan_type === 'free' && (
+                    <Link
+                      href="/pricing"
+                      className="inline-block mt-4 px-4 py-2 rounded-lg bg-accent text-on-accent font-semibold hover:bg-accent/90 transition text-sm"
+                    >
+                      Upgrade to Premium →
+                    </Link>
+                  )}
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <p className="text-muted">You're currently on the free plan.</p>
+                  <Link
+                    href="/pricing"
+                    className="inline-block px-4 py-2 rounded-lg bg-accent text-on-accent font-semibold hover:bg-accent/90 transition text-sm"
+                  >
+                    View Premium Plans →
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
 

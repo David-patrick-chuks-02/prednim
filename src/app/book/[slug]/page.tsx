@@ -3,16 +3,19 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Download } from 'lucide-react';
+import { ArrowLeft, Download, Lock } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
+import { useAuth } from '@/contexts/auth-context';
 import { PREMIUM_BOOKS, PremiumBook } from '@/lib/premiumBooks';
 
 export default function BookPage() {
   const [book, setBook] = useState<PremiumBook | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [hasAccess, setHasAccess] = useState(false);
   const router = useRouter();
   const params = useParams();
+  const { user, loading: authLoading } = useAuth();
 
   useEffect(() => {
     // Find book by slug from URL params
@@ -23,6 +26,29 @@ export default function BookPage() {
       setLoading(false);
     }
   }, [params?.slug]);
+
+  useEffect(() => {
+    // Check subscription access
+    if (!authLoading && user) {
+      checkSubscriptionAccess();
+    } else if (!authLoading && !user) {
+      setHasAccess(false);
+    }
+  }, [user, authLoading]);
+
+  const checkSubscriptionAccess = async () => {
+    try {
+      const response = await fetch('/api/admin/create-subscription');
+      const data = await response.json();
+      const userSubscription = data.users?.find((u: any) => u.id === user?.id);
+      const hasActiveSubscription = userSubscription?.subscription?.status === 'active' &&
+                                   userSubscription?.subscription?.plan_type !== 'free';
+      setHasAccess(hasActiveSubscription);
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+      setHasAccess(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -114,14 +140,32 @@ export default function BookPage() {
 
             {/* Download CTA - Single Button */}
             <div className="space-y-4 pt-6">
-              <button
-                onClick={handleDownload}
-                disabled={downloading}
-                className="w-full px-8 py-4 rounded-xl bg-accent text-on-accent font-semibold hover:bg-accent/90 transition disabled:opacity-50 flex items-center justify-center gap-3 text-lg"
-              >
-                <Download size={24} />
-                {downloading ? 'Downloading...' : 'Download PDF'}
-              </button>
+              {!authLoading && !user ? (
+                <Link
+                  href="/signup"
+                  className="w-full px-8 py-4 rounded-xl bg-accent text-on-accent font-semibold hover:bg-accent/90 transition flex items-center justify-center gap-3 text-lg"
+                >
+                  <Lock size={24} />
+                  Sign Up to Access
+                </Link>
+              ) : !authLoading && !hasAccess ? (
+                <Link
+                  href="/pricing"
+                  className="w-full px-8 py-4 rounded-xl bg-accent text-on-accent font-semibold hover:bg-accent/90 transition flex items-center justify-center gap-3 text-lg"
+                >
+                  <Lock size={24} />
+                  Upgrade to Premium
+                </Link>
+              ) : (
+                <button
+                  onClick={handleDownload}
+                  disabled={downloading}
+                  className="w-full px-8 py-4 rounded-xl bg-accent text-on-accent font-semibold hover:bg-accent/90 transition disabled:opacity-50 flex items-center justify-center gap-3 text-lg"
+                >
+                  <Download size={24} />
+                  {downloading ? 'Downloading...' : 'Download PDF'}
+                </button>
+              )}
               <p className="text-xs text-muted text-center">
                 High-quality PDF • {book.pages} pages • Ready to read offline
               </p>
