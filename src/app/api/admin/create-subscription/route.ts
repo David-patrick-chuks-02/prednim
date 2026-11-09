@@ -102,11 +102,13 @@ export async function GET(request: NextRequest) {
     );
 
     // Get all users from auth
-    const { data: users, error: usersError } = await supabase.auth.admin.listUsers();
+    const { data, error: usersError } = await supabase.auth.admin.listUsers();
 
     if (usersError) {
       return NextResponse.json({ error: usersError.message }, { status: 500 });
     }
+
+    const usersList = data?.users || [];
 
     // Get all subscriptions
     const { data: subscriptions, error: subsError } = await supabase
@@ -118,7 +120,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Combine users with their subscriptions
-    const combinedData = users.map((user: any) => {
+    const combinedData = usersList.map((user: any) => {
       const subscription = subscriptions?.find((sub: any) => sub.user_id === user.id);
       return {
         id: user.id,
