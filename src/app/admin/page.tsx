@@ -37,9 +37,10 @@ const STATUS_COLORS = {
 export default function AdminPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"users" | "refunds">("users");
+  const [activeTab, setActiveTab] = useState<"users" | "refunds" | "partners">("users");
   const [users, setUsers] = useState<User[]>([]);
   const [refunds, setRefunds] = useState<any[]>([]);
+  const [partners, setPartners] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editPlan, setEditPlan] = useState<string>("");
@@ -54,6 +55,7 @@ export default function AdminPage() {
     }
 
     fetchUsers();
+    fetchPartners();
   }, [user, loading, router]);
 
   const fetchUsers = async () => {
@@ -80,6 +82,44 @@ export default function AdminPage() {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchPartners = async () => {
+    try {
+      const response = await fetch("/api/partners/admin/applications");
+      if (!response.ok) throw new Error("Failed to fetch partner applications");
+      const data = await response.json();
+      setPartners(data.applications || []);
+    } catch (error) {
+      console.error("Partner fetch error:", error);
+    }
+  };
+
+  const handlePartnerReview = async (applicationId: number, approved: boolean, rejectionReason?: string) => {
+    try {
+      const response = await fetch("/api/partners/admin/review", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          applicationId,
+          approved,
+          rejectionReason,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to review application");
+
+      setMessage({
+        type: "success",
+        text: approved ? "Application approved!" : "Application rejected",
+      });
+      fetchPartners();
+    } catch (error) {
+      setMessage({
+        type: "error",
+        text: error instanceof Error ? error.message : "Failed to review application",
+      });
     }
   };
 
@@ -213,50 +253,78 @@ export default function AdminPage() {
             </div>
           </div>
 
-          {/* Search Bar */}
-          <div className="mb-8">
-            <input
-              type="text"
-              placeholder="Search by email or name..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-line bg-background text-ink placeholder-muted focus:outline-none focus:border-accent transition"
-            />
+          {/* Tabs */}
+          <div className="flex gap-4 mb-8 border-b border-line">
+            <button
+              onClick={() => setActiveTab("users")}
+              className={`px-4 py-3 font-semibold transition ${
+                activeTab === "users"
+                  ? "text-accent border-b-2 border-accent"
+                  : "text-muted hover:text-ink"
+              }`}
+            >
+              Users
+            </button>
+            <button
+              onClick={() => setActiveTab("partners")}
+              className={`px-4 py-3 font-semibold transition ${
+                activeTab === "partners"
+                  ? "text-accent border-b-2 border-accent"
+                  : "text-muted hover:text-ink"
+              }`}
+            >
+              Partners
+            </button>
           </div>
 
+          {/* Search Bar (Users Tab Only) */}
+          {activeTab === "users" && (
+            <div className="mb-8">
+              <input
+                type="text"
+                placeholder="Search by email or name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg border border-line bg-background text-ink placeholder-muted focus:outline-none focus:border-accent transition"
+              />
+            </div>
+          )}
+
           {/* Users Table */}
-          <div className="rounded-xl border border-line overflow-hidden bg-card/50 backdrop-blur">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="border-b border-line bg-surface/50">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Email</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Name</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Plan</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Status</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Expires</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-line/30">
-                  {filteredUsers.map((u) => {
-                    const planColor = PLAN_COLORS[u.subscription?.plan_type as keyof typeof PLAN_COLORS] || PLAN_COLORS.free;
-                    const statusConfig = STATUS_COLORS[u.subscription?.status as keyof typeof STATUS_COLORS];
-                    const StatusIcon = statusConfig?.icon;
-                    return (
-                      <tr key={u.id} className="hover:bg-surface/30 transition">
-                        <td className="px-6 py-4 text-sm text-ink font-medium">{u.email}</td>
-                        <td className="px-6 py-4 text-sm text-muted">{u.name}</td>
-                        <td className="px-6 py-4">
-                          {editingId === u.id ? (
-                            <select
-                              value={editPlan}
-                              onChange={(e) => setEditPlan(e.target.value)}
-                              className="px-3 py-2 rounded-lg bg-background border border-line text-ink text-sm font-medium focus:outline-none focus:border-accent"
-                            >
-                              <option value="free">Free</option>
-                              <option value="monthly">Monthly</option>
-                              <option value="sixmonth">6 Months</option>
+          {activeTab === "users" && (
+            <>
+              <div className="rounded-xl border border-line overflow-hidden bg-card/50 backdrop-blur">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="border-b border-line bg-surface/50">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Email</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Name</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Plan</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Status</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Expires</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-line/30">
+                      {filteredUsers.map((u) => {
+                        const planColor = PLAN_COLORS[u.subscription?.plan_type as keyof typeof PLAN_COLORS] || PLAN_COLORS.free;
+                        const statusConfig = STATUS_COLORS[u.subscription?.status as keyof typeof STATUS_COLORS];
+                        const StatusIcon = statusConfig?.icon;
+                        return (
+                          <tr key={u.id} className="hover:bg-surface/30 transition">
+                            <td className="px-6 py-4 text-sm text-ink font-medium">{u.email}</td>
+                            <td className="px-6 py-4 text-sm text-muted">{u.name}</td>
+                            <td className="px-6 py-4">
+                              {editingId === u.id ? (
+                                <select
+                                  value={editPlan}
+                                  onChange={(e) => setEditPlan(e.target.value)}
+                                  className="px-3 py-2 rounded-lg bg-background border border-line text-ink text-sm font-medium focus:outline-none focus:border-accent"
+                                >
+                                  <option value="free">Free</option>
+                                  <option value="monthly">Monthly</option>
+                                  <option value="sixmonth">6 Months</option>
                               <option value="annual">Annual</option>
                             </select>
                           ) : (
@@ -332,13 +400,103 @@ export default function AdminPage() {
             </div>
           </div>
 
-          {filteredUsers.length === 0 && !isLoading && (
-            <div className="text-center py-20">
-              <Users size={48} className="text-muted/30 mx-auto mb-4" />
-              <p className="text-muted text-lg">
-                {searchTerm ? "No users match your search" : "No users found"}
-              </p>
-            </div>
+              {filteredUsers.length === 0 && !isLoading && (
+                <div className="text-center py-20">
+                  <Users size={48} className="text-muted/30 mx-auto mb-4" />
+                  <p className="text-muted text-lg">
+                    {searchTerm ? "No users match your search" : "No users found"}
+                  </p>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Partners Section */}
+          {activeTab === "partners" && (
+            <>
+              <div className="rounded-xl border border-line overflow-hidden bg-card/50 backdrop-blur">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="border-b border-line bg-surface/50">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Business Name</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Email</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Status</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Applied</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-muted">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-line/30">
+                      {partners && partners.length > 0 ? (
+                        partners.map((app: any) => (
+                          <tr key={app.id} className="hover:bg-surface/30 transition">
+                            <td className="px-6 py-4 text-sm text-ink font-medium">{app.business_name}</td>
+                            <td className="px-6 py-4 text-sm text-muted">{app.email}</td>
+                            <td className="px-6 py-4 text-sm">
+                              <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
+                                app.status === 'approved'
+                                  ? 'bg-green-500/10 text-green-600'
+                                  : app.status === 'pending'
+                                  ? 'bg-yellow-500/10 text-yellow-600'
+                                  : 'bg-red-500/10 text-red-600'
+                              }`}>
+                                {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 text-sm text-muted">
+                              {new Date(app.applied_at).toLocaleDateString()}
+                            </td>
+                            <td className="px-6 py-4 text-sm">
+                              {app.status === 'pending' && (
+                                <div className="flex gap-2">
+                                  <button
+                                    onClick={() => handlePartnerReview(app.id, true)}
+                                    className="px-3 py-2 rounded-lg bg-green-500/10 text-green-600 font-semibold hover:bg-green-500/20 transition text-xs"
+                                  >
+                                    Approve
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      const reason = prompt('Rejection reason (optional):');
+                                      handlePartnerReview(app.id, false, reason || undefined);
+                                    }}
+                                    className="px-3 py-2 rounded-lg bg-red-500/10 text-red-600 font-semibold hover:bg-red-500/20 transition text-xs"
+                                  >
+                                    Reject
+                                  </button>
+                                </div>
+                              )}
+                              {app.status === 'approved' && (
+                                <div className="text-xs">
+                                  <p className="text-green-600 font-semibold mb-1">✓ Approved</p>
+                                  <code className="block text-xs font-mono bg-background/50 px-2 py-1 rounded">
+                                    {`REF-${app.id.slice(0, 12).toUpperCase()}`}
+                                  </code>
+                                </div>
+                              )}
+                              {app.status === 'rejected' && (
+                                <div className="text-xs">
+                                  <p className="text-red-600 font-semibold">✗ Rejected</p>
+                                  {app.rejection_reason && (
+                                    <p className="text-muted mt-1">{app.rejection_reason}</p>
+                                  )}
+                                </div>
+                              )}
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={5} className="px-6 py-12 text-center text-muted">
+                            No partner applications
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </>
           )}
         </div>
       </main>
