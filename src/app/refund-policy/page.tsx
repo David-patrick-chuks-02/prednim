@@ -85,7 +85,7 @@ export default function RefundPolicyPage() {
             </section>
 
             <div className="mt-8 pt-8 border-t border-line/30">
-              <p className="text-sm text-muted/60">Last updated: November 2026</p>
+              <p className="text-sm text-muted/60">Last updated: July 2026</p>
             </div>
           </div>
         </div>
