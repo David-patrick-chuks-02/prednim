@@ -1,20 +1,5 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "framework": "nextjs",
-  "rewrites": [
-    {
-      "source": "/:path*",
-      "destination": "/:path*"
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/refund-policy",
-      "destination": "/refund-policy/",
-      "permanent": false
-    }
-  ],
+  "trailingSlash": false,
   "headers": [
     {
       "source": "/(.*)",
@@ -25,5 +10,6 @@
         }
       ]
     }
-  ]
+  ],
+  "redirects": []
 }
