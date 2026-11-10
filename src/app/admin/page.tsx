@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useAuth } from "@/contexts/auth-context";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { Edit2, Save, X, Users, Zap, CheckCircle, AlertCircle, RefreshCw } from "lucide-react";
+import { Edit2, Save, X, Users, Zap, CheckCircle, AlertCircle, RefreshCw, TrendingUp, DollarSign, Activity, Target } from "lucide-react";
 
 interface User {
   id: string;
@@ -188,6 +188,12 @@ export default function AdminPage() {
     premium: users.filter(
       (u) => u.subscription && u.subscription.plan_type !== "free"
     ).length,
+    totalRevenue: users.filter((u) => u.subscription?.status === "active").length * 100,
+    mrr: users.filter((u) => u.subscription?.plan_type === "monthly" && u.subscription?.status === "active").length * 100,
+    partnerCommissions: users.filter((u) => u.subscription?.status === "active").length * 100 * 0.1,
+    arpu: users.length > 0
+      ? Math.round((users.filter((u) => u.subscription?.status === "active").length * 100) / users.length)
+      : 0,
   };
 
   if (loading || isLoading) {
@@ -244,16 +250,63 @@ export default function AdminPage() {
             </div>
           )}
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          {/* Stats Grid - 2 rows */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+            <div className="rounded-xl border border-green-500/20 bg-gradient-to-br from-green-500/5 to-green-500/0 backdrop-blur p-6">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-muted text-sm font-semibold uppercase tracking-wider">Total Revenue</p>
+                <div className="p-2 rounded-lg bg-green-500/10">
+                  <DollarSign className="text-green-600" size={20} />
+                </div>
+              </div>
+              <p className="font-display text-3xl font-bold text-green-600">${stats.totalRevenue.toLocaleString()}</p>
+              <p className="text-muted text-xs mt-2">{stats.active} active subscriptions @ $100</p>
+            </div>
+
+            <div className="rounded-xl border border-blue-500/20 bg-gradient-to-br from-blue-500/5 to-blue-500/0 backdrop-blur p-6">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-muted text-sm font-semibold uppercase tracking-wider">MRR</p>
+                <div className="p-2 rounded-lg bg-blue-500/10">
+                  <TrendingUp className="text-blue-600" size={20} />
+                </div>
+              </div>
+              <p className="font-display text-3xl font-bold text-blue-600">${stats.mrr.toLocaleString()}</p>
+              <p className="text-muted text-xs mt-2">Monthly Recurring Revenue</p>
+            </div>
+
+            <div className="rounded-xl border border-purple-500/20 bg-gradient-to-br from-purple-500/5 to-purple-500/0 backdrop-blur p-6">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-muted text-sm font-semibold uppercase tracking-wider">Partner Commissions</p>
+                <div className="p-2 rounded-lg bg-purple-500/10">
+                  <Target className="text-purple-600" size={20} />
+                </div>
+              </div>
+              <p className="font-display text-3xl font-bold text-purple-600">${stats.partnerCommissions.toLocaleString()}</p>
+              <p className="text-muted text-xs mt-2">10% of active revenue</p>
+            </div>
+
+            <div className="rounded-xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-amber-500/0 backdrop-blur p-6">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-muted text-sm font-semibold uppercase tracking-wider">ARPU</p>
+                <div className="p-2 rounded-lg bg-amber-500/10">
+                  <Activity className="text-amber-600" size={20} />
+                </div>
+              </div>
+              <p className="font-display text-3xl font-bold text-amber-600">${stats.arpu.toLocaleString()}</p>
+              <p className="text-muted text-xs mt-2">Average Revenue Per User</p>
+            </div>
+          </div>
+
+          {/* Secondary Stats - Row 2 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
             <div className="rounded-xl border border-line bg-card/50 backdrop-blur p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-muted text-sm mb-1">Total Users</p>
-                  <p className="font-display text-4xl font-bold text-ink">{stats.total}</p>
+                  <p className="font-display text-3xl font-bold text-ink">{stats.total}</p>
                 </div>
                 <div className="p-3 rounded-lg bg-slate-500/10">
-                  <Users className="text-slate-600" size={24} />
+                  <Users className="text-slate-600" size={20} />
                 </div>
               </div>
             </div>
@@ -262,10 +315,10 @@ export default function AdminPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-muted text-sm mb-1">Active Subscriptions</p>
-                  <p className="font-display text-4xl font-bold text-ink">{stats.active}</p>
+                  <p className="font-display text-3xl font-bold text-ink">{stats.active}</p>
                 </div>
                 <div className="p-3 rounded-lg bg-green-500/10">
-                  <CheckCircle className="text-green-600" size={24} />
+                  <CheckCircle className="text-green-600" size={20} />
                 </div>
               </div>
             </div>
@@ -274,10 +327,22 @@ export default function AdminPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-muted text-sm mb-1">Premium Plans</p>
-                  <p className="font-display text-4xl font-bold text-ink">{stats.premium}</p>
+                  <p className="font-display text-3xl font-bold text-ink">{stats.premium}</p>
                 </div>
                 <div className="p-3 rounded-lg bg-amber-500/10">
-                  <Zap className="text-amber-600" size={24} />
+                  <Zap className="text-amber-600" size={20} />
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-line bg-card/50 backdrop-blur p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-muted text-sm mb-1">Messages</p>
+                  <p className="font-display text-3xl font-bold text-ink">{messages.length}</p>
+                </div>
+                <div className="p-3 rounded-lg bg-blue-500/10">
+                  <AlertCircle className="text-blue-600" size={20} />
                 </div>
               </div>
             </div>
