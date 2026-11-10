@@ -18,18 +18,9 @@ export function PremiumBooks({ userId }: PremiumBooksProps) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Check user subscription
-        if (userId) {
-          const subResponse = await fetch("/api/user/subscription");
-          const subData = await subResponse.json();
-          const isActive = subData.subscription?.status === "active" &&
-                          subData.subscription?.plan_type !== "free";
-          setHasSubscription(isActive);
-        }
-
         // Fetch books
         const response = await fetch("/api/books/premium", {
-          cache: "force-cache",
+          cache: "no-store",
           headers: { "Accept": "application/json" }
         });
 
@@ -40,6 +31,8 @@ export function PremiumBooks({ userId }: PremiumBooksProps) {
         }
 
         setBooks(data.books);
+        // If we got books, user has subscription
+        setHasSubscription(!!data.books && data.books.length > 0);
       } catch (err) {
         setError(
           err instanceof Error ? err.message : "Failed to load premium books"
@@ -50,7 +43,7 @@ export function PremiumBooks({ userId }: PremiumBooksProps) {
     };
 
     fetchData();
-  }, [userId]);
+  }, []);
 
   if (loading) {
     return (
