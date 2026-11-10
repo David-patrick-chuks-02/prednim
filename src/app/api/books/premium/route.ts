@@ -1,53 +1,19 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
+import { requireAuth } from "@/lib/auth-middleware";
 import { PREMIUM_BOOKS } from "@/lib/premiumBooks";
 
 export async function GET(request: NextRequest) {
   try {
-    const cookieStore = await cookies();
+    const user = await requireAuth(request);
+    if (user instanceof NextResponse) {
+      return user;
+    }
 
-    const supabase = createServerClient(
+    const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return cookieStore.getAll();
-          },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, options);
-            });
-          },
-        },
-      }
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
     );
-
-    // Get current user
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    // Check if user is admin
-    const adminEmailsStr = process.env.NEXT_PUBLIC_ADMIN_EMAILS || process.env.ADMIN_EMAILS || "";
-    const adminEmails = adminEmailsStr.split(",").map((email) => email.trim().toLowerCase());
-    const isAdmin = adminEmails.includes((user.email || "").toLowerCase());
-
-    // If admin, skip subscription check
-    if (isAdmin) {
-      return NextResponse.json({
-        books: PREMIUM_BOOKS,
-        subscription: {
-          plan: "admin",
-          status: "active",
-        },
-      });
-    }
 
     // Check if user has active subscription
     const { data: subscription, error: subError } = await supabase
