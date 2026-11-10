@@ -1,5 +1,4 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/auth-middleware";
 
@@ -10,7 +9,6 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const cookieStore = await cookies();
     const { businessName, website, phone, reason } = await request.json();
 
     if (!businessName || !reason) {
@@ -20,21 +18,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const supabase = createServerClient(
+    const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return cookieStore.getAll();
-          },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, options);
-            });
-          },
-        },
-      }
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
     );
 
     // Check if user already has application or is partner
@@ -64,7 +50,6 @@ export async function POST(request: NextRequest) {
       .from("partner_applications")
       .insert({
         user_id: user.id,
-        email: user.email,
         business_name: businessName,
         website: website || null,
         phone: phone || null,
@@ -100,22 +85,9 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
+    const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return cookieStore.getAll();
-          },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, options);
-            });
-          },
-        },
-      }
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
     );
 
     // Get user's own application
