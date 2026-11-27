@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node init && next dev --port 3005",
-    "build": "node init && next build",
-    "start": "node init && next start -p ${PORT:-3005}",
+    "dev": "next dev --port 3005",
+    "build": "next build",
+    "start": "next start -p ${PORT:-3005}",
     "lint": "eslint"
   },
   "dependencies": {
